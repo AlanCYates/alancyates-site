@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching in the Age of AI &#8212; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1a1814;
+    --paper:      #faf9f6;
+    --mid:        #f2f0eb;
+    --muted:      #7a7469;
+    --rule:       #e0dbd0;
+    --accent:     #b5460f;
+    --navy:       #1a2e4a;
+    --teal:       #1d706b;
+    --amber:      #e8832a;
+    --col-width:  68ch;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    overflow-x: hidden;
+  }
+
+  /* &#9472;&#9472; TOP BAR &#9472;&#9472; */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem;
+  }
+  .topbar-home {
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .topbar-home::before { content: '&#8592;'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+
+  .topbar-downloads {
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.45rem 1rem;
+    border: 1.5px solid var(--rule);
+    color: var(--muted);
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .dl-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .dl-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; z-index: 200;
+    height: 2px; background: var(--amber);
+    width: 0%; transition: width 0.1s linear;
+  }
+
+  /* &#9472;&#9472; HERO &#9472;&#9472; */
+  .article-hero {
+    padding: 7rem 2rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .article-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.25rem;
+  }
+
+  .article-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .article-subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 58ch;
+    margin-bottom: 2rem;
+  }
+
+  .article-meta {
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .article-author {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .article-date {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .article-read-time {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--rule);
+  }
+
+  /* &#9472;&#9472; BODY LAYOUT &#9472;&#9472; */
+  .article-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+
+  /* &#9472;&#9472; PROSE &#9472;&#9472; */
+  .prose {
+    max-width: var(--col-width);
+    margin: 0 auto;
+  }
+  .prose p {
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #2a2620;
+  }
+
+  /* &#9472;&#9472; SECTION MARKERS &#9472;&#9472; */
+  .section-marker {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 3.5rem 0 1.5rem;
+  }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* &#9472;&#9472; PULL QUOTE &#9472;&#9472; */
+  .pull-quote {
+    border-left: 3px solid var(--amber);
+    padding: 1.25rem 1.75rem;
+    margin: 2.5rem 0;
+    background: var(--mid);
+  }
+  .pull-quote blockquote {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--navy);
+  }
+  .pull-quote p {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 0 !important;
+  }
+
+  /* &#9472;&#9472; SECTION HEADINGS &#9472;&#9472; */
+  h2.section-title {
+    font-family: 'Lora', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  h3.pillar-heading {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.3rem;
+    margin-top: 2rem;
+  }
+  h4.pillar-name {
+    font-family: 'Lora', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  /* &#9472;&#9472; PILLARS BLOCK &#9472;&#9472; */
+  .pillars-block {
+    background: var(--navy);
+    padding: 2rem 2rem;
+    margin: 2.5rem 0;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .pillar-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pillar-row:last-child { border-bottom: none; }
+  .pillar-num-badge {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-family: 'Source Sans 3', monospace;
+    padding-top: 0.15rem;
+  }
+  .pillar-row-title {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.35rem;
+  }
+  .pillar-row-body {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.65;
+    margin-bottom: 0 !important;
+  }
+
+  /* &#9472;&#9472; ACTIONS TABLE &#9472;&#9472; */
+  .actions-intro {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  .actions-count {
+    font-family: 'Lora', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+  }
+  .actions-label {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--muted);
+  }
+
+  .action-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .action-num {
+    width: 36px; height: 36px;
+    background: var(--navy);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .action-pillar {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.25rem;
+  }
+  .action-title {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .action-body {
+    font-size: 0.92rem;
+    color: #4a4540;
+    line-height: 1.7;
+    margin-bottom: 0 !important;
+  }
+
+  /* &#9472;&#9472; SPOTLIGHT &#9472;&#9472; */
+  .spotlight-block {
+    background: var(--teal);
+    padding: 2rem;
+    margin: 2.5rem 0;
+  }
+  .spotlight-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .spotlight-title {
+    font-family: 'Lora', serif;
+    font-size: 1.35rem; font-weight: 700;
+    color: white; margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .spotlight-body {
+    font-size: 0.95rem; color: rgba(255,255,255,0.75);
+    line-height: 1.75; margin-bottom: 1.25rem !important;
+  }
+  .stage-rows { display: flex; flex-direction: column; gap: 0; }
+  .stage-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 1rem; padding: 0.9rem 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stage-grade {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    padding-top: 0.15rem;
+  }
+  .stage-title { font-weight: 600; color: white; margin-bottom: 0.2rem; font-size: 0.95rem; }
+  .stage-desc { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.65; }
+
+  /* &#9472;&#9472; PRINCIPLES GRID &#9472;&#9472; */
+  .principles-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--rule);
+    margin: 2rem 0;
+  }
+  .principle-card {
+    background: var(--paper);
+    padding: 1.5rem;
+    border-bottom: 3px solid var(--amber);
+  }
+  .principle-icon { font-size: 1.5rem; margin-bottom: 0.6rem; display: block; }
+  .principle-title { font-weight: 600; font-size: 0.95rem; color: var(--ink); margin-bottom: 0.4rem; }
+  .principle-body { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* &#9472;&#9472; CLOSING STATS &#9472;&#9472; */
+  .closing-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule);
+    margin: 2rem 0;
+  }
+  .closing-stat {
+    background: var(--navy);
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+  .stat-big {
+    font-family: 'Lora', serif;
+    font-size: 2.4rem; font-weight: 700;
+    color: #2A9993; line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-lbl {
+    font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* &#9472;&#9472; CLOSING CALL TO ACTION &#9472;&#9472; */
+  .closing-cta {
+    margin: 3rem 0 0;
+    padding-top: 2.5rem;
+    border-top: 2px solid var(--rule);
+    text-align: center;
+  }
+  .closing-cta h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .closing-cta p { font-size: 0.95rem; color: var(--muted); max-width: 50ch; margin: 0 auto 1.5rem; }
+  .cta-link {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 0.7rem 1.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.18s;
+  }
+  .cta-link:hover { background: #9a3a0a; }
+
+  /* &#9472;&#9472; FOOTER &#9472;&#9472; */
+  .article-footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 800px; margin: 0 auto;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .topbar-downloads .dl-btn span { display: none; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .closing-stats { grid-template-columns: repeat(2, 1fr); }
+    .pillar-row { grid-template-columns: 1fr; }
+    .pillar-num-badge { display: none; }
+    .article-title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+  <div class="topbar-downloads">
+    <a href="AI_Edu_Framework_AY.pdf" download class="dl-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+      <span>PDF</span>
+    </a>
+    <a href="AI_Edu_Framework_AY.docx" download class="dl-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+      <span>Word</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="article-hero">
+  <p class="article-eyebrow">Education &amp; AI &#183; Framework Essay</p>
+  <h1 class="article-title">Teaching in the Age of AI</h1>
+  <p class="article-subtitle">An idealist's blueprint for helping every school, college, and workforce program in America rise to meet the most significant shift in learning since the printing press.</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~10 min read</span>
+  </div>
+</header>
+
+<!-- BODY -->
+<main class="article-body">
+  <div class="prose">
+
+    <!-- THE HONEST STARTING POINT -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Honest Starting Point</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">Something big has changed. Our schools must change. Fast.</h2>
+
+    <p><strong>AI can already do what we've been teaching.</strong> Writing a five-paragraph essay. Solving a math problem. Reciting historical facts. These tasks have real value &#8212; but AI can handle them instantly, for free. Education has to evolve beyond them.</p>
+
+    <p><strong>This is not a crisis. It's an invitation.</strong> Every time a new tool has automated what people used to do by hand, it freed humans to do more meaningful things. AI is no different &#8212; if we adapt well.</p>
+
+    <p><strong>The window to get this right is open &#8212; but not forever.</strong> The decisions schools and universities make in the next three to five years will shape the educational experience of an entire generation and the world. This framework is a hopeful starting point.</p>
+
+    <!-- THE CORE IDEA -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Core Idea</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="pull-quote">
+      <blockquote>"AI is getting very good at answering questions. The job of education is to develop humans who know which questions to ask."</blockquote>
+      <p>This framework doesn't ask teachers to compete with AI. It asks schools to double down on central human traits &#8212; judgment, creativity, empathy, ethical reasoning &#8212; and use AI tools wisely for exactly that work.</p>
+    </div>
+
+    <!-- FIVE PILLARS -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Structure</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">Five Pillars</h2>
+    <p>Five areas of action, each essential, each connected to the others.</p>
+
+    <div class="pillars-block">
+      <div class="pillar-row">
+        <div class="pillar-num-badge">Pillar 01</div>
+        <div>
+          <div class="pillar-row-title">Get Organized</div>
+          <p class="pillar-row-body">Build the coordination infrastructure the US currently lacks: shared standards for AI in education, states working together, independent researchers keeping everyone honest, and community watchdogs protecting the students who need protection most.</p>
+        </div>
+      </div>
+      <div class="pillar-row">
+        <div class="pillar-num-badge">Pillar 02</div>
+        <div>
+          <div class="pillar-row-title">Transform How We Teach</div>
+          <p class="pillar-row-body">Change what happens in classrooms &#8212; at every level. Teach AI literacy after we teach reading. Deploy AI tools that help students think rather than think for them. Elevate human skills. Fix assessments that AI already renders obsolete.</p>
+        </div>
+      </div>
+      <div class="pillar-row">
+        <div class="pillar-num-badge">Pillar 03</div>
+        <div>
+          <div class="pillar-row-title">Evolve Our Institutions</div>
+          <p class="pillar-row-body">Ask hard, honest questions about whether what universities, high schools, and community colleges are teaching is still worth what it costs. Redesign curricula. Retrain teachers. Set rules for how schools use AI &#8212; and who it serves.</p>
+        </div>
+      </div>
+      <div class="pillar-row">
+        <div class="pillar-num-badge">Pillar 04</div>
+        <div>
+          <div class="pillar-row-title">Leave No One Behind</div>
+          <p class="pillar-row-body">Make sure the benefits of AI-era education reach every ZIP code, income level, and career stage. Create fast, credible retraining for workers displaced by AI. Build the infrastructure for learning throughout a lifetime &#8212; not just in your twenties.</p>
+        </div>
+      </div>
+      <div class="pillar-row">
+        <div class="pillar-num-badge">Pillar 05</div>
+        <div>
+          <div class="pillar-row-title">Stay Nimble</div>
+          <p class="pillar-row-body">Build in honest review. AI will keep evolving fast. The best education reforms are the ones designed to update themselves &#8212; not calcify into yesterday's solution to today's problems.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20 ACTIONS -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">What It Looks Like In Practice</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="actions-intro">
+      <span class="actions-count">20</span>
+      <span class="actions-label">Concrete Actions</span>
+    </div>
+    <p>High-level summaries of each programmatic element in the framework.</p>
+
+    <div style="margin-top:1.5rem;">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div><div class="action-pillar">Get Organized</div><div class="action-title">A Standards Body for AI in Education</div><p class="action-body">An independent, non-governmental organization that defines what "good AI" looks like in a classroom &#8212; so schools can tell the real thing from a chatbot in disguise. Led by researchers and teachers, not vendors.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div><div class="action-pillar">Get Organized</div><div class="action-title">States Buying Together</div><p class="action-body">When states pool their purchasing power, AI companies build better products for schools. A coalition of politically diverse states saying "we'll only buy tools that meet these standards" is more powerful than any federal mandate.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div><div class="action-pillar">Get Organized</div><div class="action-title">A Living Research Network</div><p class="action-body">Universities tracking what's actually working &#8212; and sharing that evidence in plain language with teachers, administrators, and policymakers. Not ivory tower research. Practical, applied, constantly updated.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div><div class="action-pillar">Get Organized</div><div class="action-title">Equity Watchdogs in Every Region</div><p class="action-body">Independent organizations with real authority to sound the alarm when AI in education widens gaps rather than closing them. Equity isn't an afterthought here &#8212; it's a built-in requirement from day one.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div><div class="action-pillar">How We Teach</div><div class="action-title">AI Literacy for Every Child &#8212; Starting Early</div><p class="action-body">Taught at every grade level, but smartly adapted by age. Young kids learn unplugged: fairness games, pattern puzzles, storytelling about how rules affect outcomes. Older students engage with real AI tools &#8212; guided, critically, by teachers.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">6</div>
+        <div><div class="action-pillar">How We Teach</div><div class="action-title">AI That Teaches Instead of Just Answers</div><p class="action-body">School AI should work like a great tutor &#8212; asking questions, nudging thinking, and celebrating "almost" as much as "correct." Not like a search engine that does your homework for you. This distinction is everything.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">7</div>
+        <div><div class="action-pillar">How We Teach</div><div class="action-title">The Irreplaceable Human Skills</div><p class="action-body">Empathy. Creative problem-solving. Ethical judgment. Social skills. The ability to disagree well. Appreciation for physical activity and the environment. These aren't "soft skills" &#8212; they're essential for people. Schools that treat them as the premium curriculum will produce graduates the world needs.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">8</div>
+        <div><div class="action-pillar">How We Teach</div><div class="action-title">Tests That AI Can't Pass For You</div><p class="action-body">Oral exams. Project portfolios. Live problem-solving. Defending your work in front of a real audience. If a student can get an A by copying an AI response, the test measured the wrong things.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">9</div>
+        <div><div class="action-pillar">How We Teach</div><div class="action-title">A Personal Tutor for Every Student</div><p class="action-body">Wealthy families have always been able to buy extra tutoring. AI-powered adaptive learning platforms &#8212; free or subsidized &#8212; can give every kid individualized support. But only if designed and deployed equitably.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">10</div>
+        <div><div class="action-pillar">Our Institutions</div><div class="action-title">Honest Curriculum Reviews</div><p class="action-body">Every university and school district should regularly ask: "Is what we're teaching still valuable when AI can do a version of it for free?" Not to cut things, but to keep updating so degrees remain worth earning.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">11</div>
+        <div><div class="action-pillar">Our Institutions</div><div class="action-title">AI Ethics for Everyone &#8212; Not Just Tech Majors</div><p class="action-body">Future nurses, lawyers, teachers, mechanics, plumbers, construction workers, and business owners will all manage and use AI systems. Understanding algorithmic bias, data privacy, and the ethics of automation shouldn't be optional. It's basic civic preparation for the world they're entering.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">12</div>
+        <div><div class="action-pillar">Our Institutions</div><div class="action-title">Genuinely Retraining Teachers</div><p class="action-body">Not a one-day workshop. A sustained investment in helping educators become fluent with AI tools, confident in new pedagogical approaches, and clear on what they offer that no machine ever will: mentorship, presence, and human judgment.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">13</div>
+        <div><div class="action-pillar">Our Institutions</div><div class="action-title">Rules for What "Educational AI" Actually Means</div><p class="action-body">Schools deserve clear, enforceable criteria for evaluating AI products &#8212; so that "AI-powered" or "Student Mode" on a product screen actually means something educationally sound, not just a chatbot that can speak in a school's font and colors.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">14</div>
+        <div><div class="action-pillar">Our Institutions</div><div class="action-title">Student Rights in the Age of AI</div><p class="action-body">Schools must be transparent about how they use AI in grading, admissions, and advising &#8212; and students must have rights over their own learning data. This isn't a technical issue. It's a civil rights issue.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">15</div>
+        <div><div class="action-pillar">Leave No One Behind</div><div class="action-title">Fast Retraining When AI Displaces Workers</div><p class="action-body">When AI disrupts a specific job category, workers need quality retraining in months &#8212; not years. Community colleges, labor unions, nonprofit training organizations, and employers working together can build the rapid-response infrastructure to make that happen.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">16</div>
+        <div><div class="action-pillar">Leave No One Behind</div><div class="action-title">Education Isn't Just for Your Twenties Anymore</div><p class="action-body">Stackable credentials. Learning sabbaticals. Education benefits you can use at 45, not just 19. In a world where careers shift faster than ever, the idea that you get one shot at formal education is simply outdated.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">17</div>
+        <div><div class="action-pillar">Leave No One Behind</div><div class="action-title">Bringing Diverse Voices into AI Development</div><p class="action-body">The people building AI systems shape what those systems value and who they serve. Opening research pipelines to students from HBCUs, community colleges, and underrepresented communities isn't just equity &#8212; it's quality insurance for the technology we'll all depend on.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">18</div>
+        <div><div class="action-pillar">Stay Nimble</div><div class="action-title">Built-In Expiration Dates</div><p class="action-body">Every standard and program in this framework should have a mechanism to prove it's still relevant every few years &#8212; or be updated. The worst outcome is a perfect response to 2025's AI landscape that gets frozen and applied unchanged to 2032's.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">19</div>
+        <div><div class="action-pillar">Stay Nimble</div><div class="action-title">A Story People Can Believe In</div><p class="action-body">None of this works without public trust. Teachers, parents, students, and employers need a clear, honest, hopeful narrative about what AI changes &#8212; and what it doesn't &#8212; about what makes a great education. That story has to be built deliberately.</p></div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">20</div>
+        <div><div class="action-pillar">Stay Nimble</div><div class="action-title">Invent Your Own Tactics &#8212; The Time Starts Now</div><p class="action-body">And you can help build it. This framework is a starting point, not a ceiling. Every educator, parent, employer, and policymaker who engages seriously with these questions adds to the solution.</p></div>
+      </div>
+    </div>
+
+    <!-- K-6 SPOTLIGHT -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Spotlight</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="spotlight-block">
+      <div class="spotlight-label">Spotlight</div>
+      <div class="spotlight-title">What about younger kids &#8212; who shouldn't be on screens all day?</div>
+      <p class="spotlight-body">The answer is actually reassuring: the most important AI education for young children requires no devices at all. The goal in K&#8211;6 isn't teaching children to use AI. It's building the human foundations &#8212; reading, writing, mathematics, athletics, social groups, curiosity, fairness, critical thinking, empathy &#8212; that can make them wiser later. Those are built through play, conversation, and stories. Not screens.</p>
+      <div class="stage-rows">
+        <div class="stage-row">
+          <div class="stage-grade">Grades K&#8211;3</div>
+          <div><div class="stage-title">Unplugged, Playful, Foundational</div><div class="stage-desc">Sorting games that teach how AI learns from examples. Role-playing recommendation systems. Stories about fairness, rules, and decisions. Physical activity. Reading, writing, maths. Time with people of all kinds. Zero screens needed &#8212; parents can extend this at home with everyday joy.</div></div>
+        </div>
+        <div class="stage-row">
+          <div class="stage-grade">Grades 4&#8211;6</div>
+          <div><div class="stage-title">Connecting Concepts to Real Life</div><div class="stage-desc">Students start connecting what they've learned to the AI they already encounter on streaming services and voice assistants. Some supervised, teacher-guided device time &#8212; always with the question: "Did it get that right? How do we know?"</div></div>
+        </div>
+        <div class="stage-row">
+          <div class="stage-grade">Grades 7&#8211;12</div>
+          <div><div class="stage-title">Hands-On, Critical, Confident</div><div class="stage-desc">Real AI tool literacy, ethics coursework, and genuine exploration &#8212; built on a foundation of critical thinking already in place. Students who reach this stage prepared don't just use AI. They interrogate it.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT THIS IS AND ISN'T -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Let's Be Clear</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">What this framework is &#8212; and isn't</h2>
+    <p>A framework does not ask you to fear AI, embrace it blindly, or do either alone.</p>
+
+    <div class="principles-grid">
+      <div class="principle-card">
+        <span class="principle-icon">&#128105;&#8205;&#127979;</span>
+        <div class="principle-title">It puts teachers at the center</div>
+        <div class="principle-body">AI handles the repetitive, administrative, and explanatory work so teachers can do what only humans can: mentor, inspire, challenge, and know their students as people.</div>
+      </div>
+      <div class="principle-card">
+        <span class="principle-icon">&#127963;&#65039;</span>
+        <div class="principle-title">It works without federal mandates</div>
+        <div class="principle-body">With Washington's education capacity currently uncertain, this framework is designed to be built from the bottom up &#8212; by researchers, states, foundations, and educators ready to move now.</div>
+      </div>
+      <div class="principle-card">
+        <span class="principle-icon">&#9878;&#65039;</span>
+        <div class="principle-title">Designed for equity, not just excellence</div>
+        <div class="principle-body">AI-era education reform has a history of benefiting the already-advantaged first. This framework builds equity oversight in from the start, not as an afterthought.</div>
+      </div>
+      <div class="principle-card">
+        <span class="principle-icon">&#128260;</span>
+        <div class="principle-title">It plans to be wrong &#8212; and update</div>
+        <div class="principle-body">AI will keep changing. Any framework that doesn't plan for its own revision will become obsolete. Every element here is built to be reviewed, revised, and improved.</div>
+      </div>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Bottom Line</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">The goal was never to make better test-takers. It was always to make better humans.</h2>
+    <p>AI is a powerful new reason to refocus on exactly that. This framework is a roadmap for getting there &#8212; practical, evidence-grounded, and built for the world as it actually is.</p>
+
+    <div class="closing-stats">
+      <div class="closing-stat"><div class="stat-big">20</div><div class="stat-lbl">Concrete actions</div></div>
+      <div class="closing-stat"><div class="stat-big">5</div><div class="stat-lbl">Strategic pillars</div></div>
+      <div class="closing-stat"><div class="stat-big">K&#8211;&#8734;</div><div class="stat-lbl">Every stage of learning</div></div>
+      <div class="closing-stat"><div class="stat-big">1</div><div class="stat-lbl">Urgent decade to act</div></div>
+    </div>
+
+    <div class="closing-cta">
+      <h3>More thoughts to come.</h3>
+      <p>This is the beginning of an ongoing conversation about education, AI, and the future we're building together.</p>
+      <a href="index.html" class="cta-link">Return to alancyates.com</a>
+    </div>
+
+  </div><!-- end .prose -->
+</main>
+
+<footer class="article-footer">
+  <span>Teaching in the Age of AI &#183; Strategic Framework &#183; 2026 &#183; Alan Yates</span>
+  <span>Developed through AI research synthesis</span>
+</footer>
+
+<script>
+  // Reading progress bar
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>

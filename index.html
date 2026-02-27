@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alan Yates &mdash; Technology Executive &amp; Education Advocate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #111010;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #b5460f;
+    --accent-light: #d4622a;
+    --slate: #3a3530;
+    --muted: #7a7268;
+    --rule: #c8c0b0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4vw;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: 0.02em; color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--slate); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero {
+    min-height: 100vh; display: grid;
+    grid-template-columns: 1fr 1fr; padding-top: 5rem;
+  }
+  .hero-text {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 5vw 8vh 8vw;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 900;
+    line-height: 1.02; letter-spacing: -0.02em; color: var(--ink);
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+  .hero-rule {
+    width: 3rem; height: 2px; background: var(--accent); margin: 2rem 0;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+  .hero-tagline {
+    font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--slate);
+    max-width: 40ch; line-height: 1.65;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.75s;
+  }
+  .hero-cta-row {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp 0.7s ease forwards 0.9s;
+  }
+  .btn-primary {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 0.75rem 1.75rem; font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block; border: 1.5px solid var(--slate); color: var(--slate);
+    padding: 0.75rem 1.75rem; font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-visual {
+    background: var(--ink); position: relative; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 4rem;
+    opacity: 0; animation: fadeIn 1s ease forwards 0.5s;
+  }
+  .hero-visual::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 30%, #2a1a0e 0%, transparent 70%),
+      linear-gradient(160deg, #1a1208 0%, #0d0d0d 100%);
+  }
+  .hero-visual-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(245,240,232,0.03) 39px, rgba(245,240,232,0.03) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(245,240,232,0.03) 39px, rgba(245,240,232,0.03) 40px);
+  }
+  .hero-stat-stack { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 1.5rem; }
+  .hero-stat {
+    border-left: 2px solid var(--accent); padding-left: 1.25rem;
+    opacity: 0; animation: fadeUp 0.6s ease forwards;
+  }
+  .hero-stat:nth-child(1) { animation-delay: 0.9s; }
+  .hero-stat:nth-child(2) { animation-delay: 1.1s; }
+  .hero-stat:nth-child(3) { animation-delay: 1.3s; }
+  .hero-stat:nth-child(4) { animation-delay: 1.5s; }
+  .hero-stat-number {
+    font-family: 'Playfair Display', serif; font-size: 2.25rem;
+    font-weight: 700; color: var(--paper); line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-top: 0.2rem;
+  }
+
+  section { padding: 7rem 8vw; }
+  section + section { border-top: 1px solid var(--rule); }
+  .section-label {
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-body { font-size: 1.05rem; color: var(--slate); max-width: 65ch; line-height: 1.8; }
+
+  .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 6rem; align-items: start; }
+  .discipline-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 2rem; margin-top: 2.5rem; }
+  .discipline-item {
+    font-size: 0.82rem; font-weight: 400; color: var(--slate);
+    letter-spacing: 0.03em; padding: 0.45rem 0;
+    border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.6rem;
+  }
+  .discipline-item::before { content: '\2192'; color: var(--accent); font-size: 0.75rem; flex-shrink: 0; }
+
+  .aside-quote { position: sticky; top: 8rem; background: var(--ink); color: var(--paper); padding: 2.5rem; }
+  .aside-quote blockquote {
+    font-family: 'Playfair Display', serif; font-size: 1.35rem;
+    font-style: italic; line-height: 1.55; font-weight: 400;
+  }
+  .aside-quote blockquote::before {
+    content: '\201C'; font-size: 4rem; line-height: 0.5; display: block;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .aside-cite {
+    display: block; margin-top: 1.5rem; font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .experience-section { background: var(--cream); }
+  .experience-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 3.5rem; }
+  .exp-item {
+    display: grid; grid-template-columns: 220px 1fr; gap: 2rem;
+    padding: 2rem 0; border-top: 1px solid var(--rule);
+  }
+  .exp-item:first-child { border-top: 2px solid var(--ink); }
+  .exp-company { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); line-height: 1.25; }
+  .exp-period { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.35rem; }
+  .exp-title { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .exp-desc { font-size: 0.95rem; color: var(--slate); line-height: 1.7; }
+
+  .writing-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; }
+  .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .article-card {
+    border: 1px solid var(--rule); background: var(--cream); padding: 2rem;
+    position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .article-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+  .article-card-status {
+    display: inline-block; font-size: 0.63rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: var(--accent); color: #fff; padding: 0.2rem 0.6rem; margin-bottom: 1.2rem;
+  }
+  .article-card-status.published { background: var(--slate); }
+  .article-card-title {
+    font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
+    line-height: 1.3; color: var(--ink); margin-bottom: 1rem;
+  }
+  .article-card-teaser { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+  .article-card-pattern {
+    position: absolute; bottom: -1rem; right: -1rem;
+    width: 6rem; height: 6rem; border: 2px solid var(--rule); opacity: 0.4;
+  }
+
+  .contact-section { background: var(--ink); color: var(--paper); }
+  .contact-section .section-body { color: #a09890; }
+  .contact-section .section-title { color: var(--paper); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 3.5rem; }
+  .contact-info { display: flex; flex-direction: column; gap: 1.75rem; }
+  .contact-item-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .contact-item-value { font-size: 1rem; color: var(--paper); text-decoration: none; transition: color 0.2s; }
+  a.contact-item-value:hover { color: var(--accent-light); }
+  .education-block { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; }
+  .edu-item { padding: 1.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .edu-degree { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--paper); }
+  .edu-school { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 0.2rem; }
+  .edu-year { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-light); margin-top: 0.15rem; }
+
+  footer {
+    background: #0a0906; color: var(--muted); padding: 2rem 8vw;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.75rem; letter-spacing: 0.06em;
+  }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .aside-quote { position: static; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Alan C. Yates</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Technology Executive &amp; Educator</p>
+    <h1 class="hero-name">Alan Yates</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Building transformative technology and shaping a future where people &mdash; and our education systems &mdash; adapt and thrive in the age of artificial intelligence.</p>
+    <div class="hero-cta-row">
+      <a href="#experience" class="btn-primary">View Experience</a>
+      <a href="#writing" class="btn-ghost">Essays &amp; Ideas</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-visual-pattern"></div>
+    <div class="hero-stat-stack">
+      <div class="hero-stat">
+        <div class="hero-stat-number">35+</div>
+        <div class="hero-stat-label">Years in Technology</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">MS &middot; HU</div>
+        <div class="hero-stat-label">Stanford GSB &middot; Harvard</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">AI</div>
+        <div class="hero-stat-label">Education &amp; Future of Work</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">GTM</div>
+        <div class="hero-stat-label">Enterprise &middot; Consumer &middot; Emerging</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label reveal">About</p>
+      <h2 class="section-title reveal reveal-delay-1">A career at the <em>edge</em> of what&rsquo;s next</h2>
+      <p class="section-body reveal reveal-delay-2">I am a senior technology executive with a track record spanning foundational roles at Microsoft, executive leadership in venture-backed companies, and board and advisory positions across AI, SaaS, tablets, thin-clients, media, education, IoT, and VR/AR.</p>
+      <p class="section-body reveal reveal-delay-2" style="margin-top:1rem;">My expertise lives at the intersection of strategy, product, and commercial execution &mdash; turning breakthrough ideas into growing businesses. I have led go-to-market strategy, global business development, and strategic partnerships across enterprise, consumer, and emerging markets.</p>
+      <p class="section-body reveal reveal-delay-2" style="margin-top:1rem;">Today, there is nothing more important to me than working to shape a positive future for people &mdash; especially by transforming our education systems to meet the new realities of artificial intelligence.</p>
+      <div class="discipline-list reveal">
+        <div class="discipline-item">Go-to-Market Strategy</div>
+        <div class="discipline-item">SaaS</div>
+        <div class="discipline-item">AI Software</div>
+        <div class="discipline-item">IoT &amp; ITV</div>
+        <div class="discipline-item">Global Business Dev.</div>
+        <div class="discipline-item">Immersive Tech (VR/AR)</div>
+        <div class="discipline-item">Corporate Development</div>
+        <div class="discipline-item">Cloud Computing</div>
+        <div class="discipline-item">Executive Advisory</div>
+        <div class="discipline-item">Strategic Partnerships</div>
+        <div class="discipline-item">Product Management</div>
+        <div class="discipline-item">Channel Development</div>
+        <div class="discipline-item">Enterprise Software</div>
+        <div class="discipline-item">Acquisition &amp; Exit</div>
+      </div>
+    </div>
+    <div>
+      <div class="aside-quote reveal">
+        <blockquote>At this point in my journey, there is nothing more important to me than working to shape a positive future for people &mdash; especially by transforming our education systems.</blockquote>
+        <cite class="aside-cite">&mdash; Alan Yates, 2026</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="experience-section">
+  <p class="section-label reveal">Career</p>
+  <h2 class="section-title reveal reveal-delay-1">Three decades of <em>building</em> what&rsquo;s next</h2>
+  <div class="experience-grid">
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">Docugami</div><div class="exp-period">2018 &mdash; Present</div></div>
+      <div><div class="exp-title">Chief Business Officer</div><div class="exp-desc">Leads go-to-market strategy, sales, marketing, corporate development, partnerships, and commercialization for a native AI-powered document intelligence platform. Defined and positioned a breakthrough approach to transform complex business documents into structured, actionable data for enterprise use.</div></div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">Freefly Systems</div><div class="exp-period">2014 &mdash; 2019</div></div>
+      <div><div class="exp-title">VP, Business Development</div><div class="exp-desc">Spearheaded business development and strategic growth for a market-leading innovator in professional cinema and drone camera motion systems, driving rapid expansion into new channels and markets worldwide.</div></div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">VRstudios</div><div class="exp-period">2015 &mdash; 2018</div></div>
+      <div><div class="exp-title">Board Member</div><div class="exp-desc">Contributed as a board member for a pioneering company delivering commercial-grade, immersive virtual reality experiences. Facilitated strategic growth leading to acquisition.</div></div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">TinMan Systems</div><div class="exp-period">2018 &mdash; 2021</div></div>
+      <div><div class="exp-title">Advisor</div><div class="exp-desc">Guided business launch, product positioning, and go-to-market strategy with early customers for an Industrial IoT diagnostics company.</div></div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">Numera Health</div><div class="exp-period">2011 &mdash; 2012</div></div>
+      <div><div class="exp-title">VP, Business Development</div><div class="exp-desc">Developed a new online wellness product and led initial business development for the early digital health venture, resulting in an early acquisition.</div></div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">NComputing</div><div class="exp-period">2010 &mdash; 2011</div></div>
+      <div><div class="exp-title">Strategic Business Development</div><div class="exp-desc">Created strategic initiatives and grew EMEA region sales during rapid international expansion of thin client computing. Served as Acting VP of the EMEA Region, growing it by 40%.</div></div>
+    </div>
+
+    <div class="exp-item reveal" style="border-top:2px solid var(--accent);margin-top:1rem;">
+      <div class="exp-left"><div class="exp-company">Microsoft<br>Corporation</div><div class="exp-period">1990 &mdash; 2009</div></div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div><div class="exp-title">GM, Worldwide Education &middot; 2006&ndash;2009</div><div class="exp-desc">Led global sales and marketing of Microsoft&rsquo;s product portfolio and philanthropic efforts in Education, transforming a stagnant business into one of the company&rsquo;s fastest-growing, essential segments.</div></div>
+          <div><div class="exp-title">GM, Business Strategy &mdash; MS Office &middot; 2003&ndash;2006</div><div class="exp-desc">Developed growth and competitive strategies for the Microsoft Office franchise, including expansion to the cloud, worldwide standardization of OpenXML document formats, and competitive strategy vs. Google Docs and OpenOffice.</div></div>
+          <div><div class="exp-title">GM / VP, Microsoft TV, WebTV, Windows CE &middot; 1996&ndash;2002</div><div class="exp-desc">Led Microsoft&rsquo;s expansion beyond the PC into consumer devices and television software. Managed Windows CE, supported global broadband internet and interactive TV partnerships, and led the acquisition and rollout of WebTV.</div></div>
+          <div><div class="exp-title">Channel Marketing Manager &middot; 1990&ndash;1996</div><div class="exp-desc">Invented and founded Microsoft&rsquo;s Worldwide Partner Program, transitioning the company from retail consumer products to Enterprise products. Helped launch Windows NT and Microsoft&rsquo;s server business, rapidly growing what became the world&rsquo;s largest Partner ecosystem.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left"><div class="exp-company">Earlier Career</div><div class="exp-period">1977 &mdash; 1990</div></div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:1.25rem;">
+          <div><div class="exp-title">Oklahoma State Senate &mdash; Staff Director, Head of Staff</div><div class="exp-desc">Began as Analyst for the Appropriations Committee developing the state budget; promoted to head of staff for all legislation, legal work, and budget development in a bipartisan role.</div></div>
+          <div><div class="exp-title">Mayor&rsquo;s Office, Los Angeles &mdash; Energy Policy Analyst</div><div class="exp-desc">Developed the Comprehensive Energy Management Plan for the City of Los Angeles as a policy guide for energy conservation and solar initiatives.</div></div>
+          <div><div class="exp-title">Crossroads School, Santa Monica &mdash; High School Teacher</div><div class="exp-desc">Taught 9&ndash;12 grade Mathematics and English; coached Basketball and Track &amp; Field. Recipient of the <em>Outstanding Teacher</em> award.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="writing">
+  <div class="writing-header">
+    <div>
+      <p class="section-label reveal">Essays &amp; Ideas</p>
+      <h2 class="section-title reveal reveal-delay-1">Writing on what <em>matters</em></h2>
+    </div>
+  </div>
+  <p class="section-body reveal" style="max-width:72ch;margin-bottom:3rem;">I write on the topics I care most about &mdash; the collision of artificial intelligence with human potential, and how we must reimagine education for the world that is arriving.</p>
+
+  <div class="articles-grid">
+
+    <a href="framework.html" class="article-card reveal">
+      <div class="article-card-status published">Published &middot; 2026</div>
+      <h3 class="article-card-title">Teaching in the Age of AI</h3>
+      <p class="article-card-teaser">A blueprint for helping every school, college, and workforce program in America rise to meet the most significant shift in learning since the printing press. 5 pillars. 20 concrete actions.</p>
+      <div class="article-card-pattern"></div>
+    </a>
+
+    <div class="article-card reveal reveal-delay-1">
+      <div class="article-card-status">Coming Soon</div>
+      <h3 class="article-card-title">The Skills That Will Matter Most &mdash; and Why We&rsquo;re Teaching the Wrong Ones</h3>
+      <p class="article-card-teaser">Critical thinking, creativity, and adaptability have never been more important. Yet our curricula still optimize for rote knowledge. A case for urgent change.</p>
+      <div class="article-card-pattern"></div>
+    </div>
+
+    <div class="article-card reveal reveal-delay-2">
+      <div class="article-card-status">Coming Soon</div>
+      <h3 class="article-card-title">What 35 Years in Tech Taught Me About Change &mdash; and Human Resilience</h3>
+      <p class="article-card-teaser">From the PC revolution to the internet, mobile, cloud, and now AI &mdash; a practitioner&rsquo;s perspective on navigating technological disruption and why optimism is warranted.</p>
+      <div class="article-card-pattern"></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <p class="section-label" style="color:var(--accent);">Get in Touch</p>
+  <h2 class="section-title reveal" style="color:var(--paper);">Let&rsquo;s build something <em style="color:var(--accent-light);">meaningful</em></h2>
+  <p class="section-body reveal" style="margin-top:0.5rem;">I&rsquo;m open to advisory roles, board positions, executive partnerships, and conversations about the future of education and AI.</p>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div><div class="contact-item-label">Email</div><a href="mailto:alany@msn.com" class="contact-item-value">alany@msn.com</a></div>
+      <div><div class="contact-item-label">Phone</div><a href="tel:+14257852633" class="contact-item-value">425-785-2633</a></div>
+      <div><div class="contact-item-label">Location</div><span class="contact-item-value">Woodinville, WA &middot; Greater Seattle Area</span></div>
+      <div><div class="contact-item-label">Website</div><span class="contact-item-value">alancyates.com</span></div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="education-block">
+        <p class="section-label" style="color:var(--accent);margin-bottom:1.5rem;">Education</p>
+        <div class="edu-item">
+          <div class="edu-degree">Master of Business Administration</div>
+          <div class="edu-school">Stanford University Graduate School of Business</div>
+          <div class="edu-year">Class of 1990</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Master of Arts &mdash; Education</div>
+          <div class="edu-school">Stanford University</div>
+          <div class="edu-year">Class of 1977</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Bachelor of Arts &mdash; English Literature</div>
+          <div class="edu-school">Harvard University</div>
+          <div class="edu-year">Class of 1976</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>&copy; 2026 Alan C. Yates</span>
+  <span style="letter-spacing:0.12em;text-transform:uppercase;font-size:0.68rem;">alancyates.com</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
