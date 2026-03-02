@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.I.P. or Rebirth? The Future of SaaS &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:     #1a1814;
+    --paper:   #faf9f6;
+    --mid:     #f2f0eb;
+    --muted:   #7a7469;
+    --rule:    #e0dbd0;
+    --accent:  #b5460f;
+    --navy:    #1a2e4a;
+    --teal:    #1d706b;
+    --amber:   #e8832a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    overflow-x: hidden;
+  }
+
+  /* &#9472;&#9472; TOP BAR &#9472;&#9472; */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem;
+  }
+  .topbar-home {
+    font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600;
+    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; z-index: 200;
+    height: 2px; background: var(--amber); width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* &#9472;&#9472; HERO &#9472;&#9472; */
+  .article-hero {
+    padding: 7rem 2rem 4rem;
+    max-width: 800px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article-eyebrow {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem;
+  }
+  .article-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .article-title-sub {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 400; font-style: italic;
+    line-height: 1.25; color: var(--muted); margin-bottom: 1.5rem;
+  }
+  .article-meta {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0.25rem 0.65rem; border: 1px solid var(--rule);
+  }
+
+  /* &#9472;&#9472; BODY &#9472;&#9472; */
+  .article-body {
+    max-width: 800px; margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p { margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.8; color: #2a2620; }
+  .prose strong { font-weight: 600; color: var(--ink); }
+
+  /* &#9472;&#9472; SECTION MARKERS &#9472;&#9472; */
+  .section-marker {
+    display: flex; align-items: center; gap: 1rem; margin: 3.5rem 0 1.5rem;
+  }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+
+  /* &#9472;&#9472; PULL QUOTE &#9472;&#9472; */
+  .pull-quote {
+    border-left: 3px solid var(--amber);
+    padding: 1.25rem 1.75rem; margin: 2.5rem 0;
+    background: var(--mid);
+  }
+  .pull-quote blockquote {
+    font-family: 'Lora', serif; font-size: 1.25rem; font-style: italic;
+    font-weight: 600; line-height: 1.45; color: var(--navy);
+  }
+
+  /* &#9472;&#9472; HEADINGS &#9472;&#9472; */
+  h2.section-title {
+    font-family: 'Lora', serif; font-size: 1.65rem; font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.01em; color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  /* &#9472;&#9472; NUMBERED POINTS &#9472;&#9472; */
+  .point-block {
+    margin: 1.75rem 0;
+    padding: 1.5rem;
+    background: var(--mid);
+    border-left: 3px solid var(--navy);
+  }
+  .point-num {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem;
+  }
+  .point-title {
+    font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.6rem;
+  }
+  .point-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  /* &#9472;&#9472; PRICING LIST &#9472;&#9472; */
+  .pricing-list { margin: 1rem 0 1rem 0; padding: 0; list-style: none; }
+  .pricing-list li {
+    font-size: 0.95rem; color: #4a4540; line-height: 1.7;
+    padding: 0.5rem 0 0.5rem 1.5rem; border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .pricing-list li::before {
+    content: '\2192'; position: absolute; left: 0;
+    color: var(--amber); font-size: 0.85rem;
+  }
+
+  /* &#9472;&#9472; VERDICT BOX &#9472;&#9472; */
+  .verdict-box {
+    background: var(--navy); padding: 2rem; margin: 2.5rem 0;
+  }
+  .verdict-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #2a9993; margin-bottom: 0.75rem;
+  }
+  .verdict-title {
+    font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700;
+    color: #ffffff; margin-bottom: 1rem; line-height: 1.3;
+  }
+  .verdict-body { font-size: 0.95rem; color: #c8dce8; line-height: 1.75; margin-bottom: 0.75rem; }
+  .verdict-body:last-child { margin-bottom: 0; }
+
+  /* &#9472;&#9472; CLOSING CTA &#9472;&#9472; */
+  .closing-cta {
+    margin: 3rem 0 0; padding-top: 2.5rem;
+    border-top: 2px solid var(--rule); text-align: center;
+  }
+  .closing-cta h3 {
+    font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .closing-cta p { font-size: 0.95rem; color: var(--muted); max-width: 50ch; margin: 0 auto 1.5rem; }
+  .cta-link {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.18s;
+  }
+  .cta-link:hover { background: #9a3a0a; }
+
+  /* &#9472;&#9472; FOOTER &#9472;&#9472; */
+  .article-footer {
+    border-top: 1px solid var(--rule); padding: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 800px; margin: 0 auto;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .article-title { font-size: 2rem; }
+    .article-title-sub { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Technology &amp; Business Strategy &middot; 2026</p>
+  <h1 class="article-title">R.I.P. or Rebirth?</h1>
+  <p class="article-title-sub">Why the SaaS Industry Isn&rsquo;t Dead, But Some Things Have Gotta Change</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~7 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+  <div class="prose">
+
+    <p>For the last twenty years, the Software-as-a-Service (SaaS) playbook was simple: identify a business pain point, build a cloud-based tool to solve it, and charge a monthly fee per user (&ldquo;seat&rdquo;). This formula generated some of the highest valuations and most consistent growth in economic history.</p>
+
+    <p>But in late 2022, the ground shifted. Generative AI arrived, and suddenly, the traditional SaaS value proposition started to look shaky.</p>
+
+    <p>A wave of panic rippled through the tech world. Stocks took a quick dip on headlines of AI advancements and quickly began positing, &ldquo;Is SaaS dead?&rdquo; Predictions started that small, AI-powered startups would dismantle multi-billion-dollar incumbents. The rise of sophisticated Large Language Models (LLMs) changed the equation. If an AI can write code, analyze data, and create content autonomously, do companies still need massive, off-the-shelf software platforms?</p>
+
+    <div class="pull-quote">
+      <blockquote>No, the SaaS industry is not dead. But the era of passive &ldquo;systems of record&rdquo; is over.</blockquote>
+    </div>
+
+    <p>SaaS is facing a Darwinian moment. It is not an extinction event, but an urgent evolutionary imperative. For SaaS firms to survive and thrive in the future, they must move beyond simply providing software as a tool and start providing software as a <strong>solution</strong> &mdash; powered and delivered by AI.</p>
+
+    <!-- CRISIS SECTION -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Current Crisis</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">Where the &ldquo;SaaS is Dead&rdquo; Narrative Comes From</h2>
+
+    <p>The anxiety surrounding the traditional SaaS model stems from several genuine disruptors introduced by AI:</p>
+
+    <div class="point-block">
+      <div class="point-num">Disruptor 01</div>
+      <div class="point-title">The End of the &ldquo;User-as-the-Key-Worker&rdquo;</div>
+      <p class="point-body">The classic SaaS model relies on human users interacting with software to get work done. A CRM exists for salespeople to input data and send emails. An HR tool exists for people managers to process reviews. If AI starts automating the everyday tasks within the platform, the need for dozens of expensive user seats diminishes rapidly.</p>
+    </div>
+
+    <div class="point-block">
+      <div class="point-num">Disruptor 02</div>
+      <div class="point-title">A Key Barrier to Entry Has Collapsed</div>
+      <p class="point-body">Historically, building enterprise software required significant capital and engineering talent. Today, AI helps developers write code faster and better. It is now possible for a two-person team to build a complex application in months that previously required a team of fifty. There are still other barriers &mdash; marketing, distribution, data &mdash; but a central one is diminished.</p>
+    </div>
+
+    <div class="point-block">
+      <div class="point-num">Disruptor 03</div>
+      <div class="point-title">&ldquo;Thin Wrappers&rdquo; Are Vulnerable</div>
+      <p class="point-body">Many SaaS products that rushed to add AI are simply &ldquo;wrappers&rdquo; &mdash; minor UI interfaces that send prompts to OpenAI&rsquo;s API. The problem? The underlying AI provider can easily add that functionality themselves, rendering the SaaS product redundant.</p>
+    </div>
+
+    <!-- EVOLUTION SECTION -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Evolution</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">What Must Happen Next</h2>
+
+    <p>For SaaS firms to provide defensible value, they cannot just <em>add</em> AI features; they must <em>become</em> AI-native. This requires moving from being a &ldquo;System of Record&rdquo; to a <strong>&ldquo;System of Action and Insight.&rdquo;</strong></p>
+
+    <p>The next generation of SaaS &mdash; call it SaaS 2.0 &mdash; focuses less on the user interface and more on the outcome. In the old model, you paid HubSpot so your employees could manage marketing. In the new model, the SaaS product itself will autonomously execute marketing campaigns, optimize them in real-time, and report the results. The human user shifts from being the &ldquo;doer&rdquo; to the &ldquo;editor&rdquo; or &ldquo;curator.&rdquo;</p>
+
+    <!-- ROADMAP SECTION -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Strategic Roadmap</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">How SaaS Firms Can Adapt</h2>
+
+    <p>There is a defined path forward. It requires leverage, integration, and a willingness to cannibalize &mdash; or redefine &mdash; one&rsquo;s own old business models.</p>
+
+    <div class="point-block">
+      <div class="point-num">Strategy 01</div>
+      <div class="point-title">Leverage Proprietary Data &mdash; The Data Moat</div>
+      <p class="point-body">Generic LLMs like ChatGPT are smart, but they do not know a company&rsquo;s unique internal context. An HR SaaS company with ten years of anonymized performance data, compliant workflows, and company-specific policies has a massive &ldquo;data moat.&rdquo; By fine-tuning AI models on this proprietary, clean, and structured data, SaaS firms can offer accurate, bespoke insights that a generic AI cannot replicate. Data is the new defensibility.</p>
+    </div>
+
+    <div class="point-block">
+      <div class="point-num">Strategy 02</div>
+      <div class="point-title">Deepen Vertical Specialization</div>
+      <p class="point-body">The most vulnerable SaaS products are horizontal &mdash; tools that apply broadly to many industries, like basic project management. The safest are vertical &mdash; those built specifically for a niche, such as dental practice management, construction logistics, or insurance claims processing. Vertical SaaS platforms integrate deeply with specific industry regulatory environments, unique legacy systems, and complex internal workflows that AI can&rsquo;t easily navigate without substantial, pre-existing domain expertise.</p>
+    </div>
+
+    <div class="point-block">
+      <div class="point-num">Strategy 03</div>
+      <div class="point-title">Focus on Agent Workflows</div>
+      <p class="point-body">Integration and orchestration are key. If a SaaS product is the &ldquo;brain&rdquo; for a specific business function, it must have &ldquo;hands&rdquo; to get things done. SaaS firms must build AI agents capable of autonomous or supervised multi-step tasks. An AI in a project management tool should be able to read a project brief, automatically assign tasks to the correct team members, set deadlines based on historical velocity, and flag potential bottlenecks before they happen. This is a system of action.</p>
+    </div>
+
+    <div class="point-block">
+      <div class="point-num">Strategy 04</div>
+      <div class="point-title">Shift the Pricing Model</div>
+      <p class="point-body">This is perhaps the key adaptation. The user-seat model is fundamentally misaligned with an AI future where fewer human users are needed per application. SaaS firms must move toward <strong>consumption-based</strong> or <strong>outcome-based pricing</strong>.</p>
+      <ul class="pricing-list" style="margin-top:1rem;">
+        <li>A flat integration fee for access to the core platform</li>
+        <li>A usage fee based on computational consumption (AI tokens, pages, or API calls)</li>
+        <li>A value fee for results &mdash; e.g., $10 per qualified lead generated, or a percentage of cost savings identified by the AI</li>
+      </ul>
+      <p class="point-body" style="margin-top:0.75rem;">This shifts the metric from <em>adoption</em> (how many people have a login) to <em>value</em> (what did the software actually achieve).</p>
+    </div>
+
+    <!-- VERDICT -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Verdict</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="verdict-box">
+      <div class="verdict-label">Adaptive Evolution</div>
+      <div class="verdict-title">The assertion that &ldquo;SaaS is dead&rdquo; is too binary.</div>
+      <p class="verdict-body">Software as a medium for business operations is not going away. What is dying is the tolerance for software that requires the user to do all the heavy lifting.</p>
+      <p class="verdict-body">The SaaS firms that will fail are those that ignore AI, move too slowly, avoid experimentation, or treat it merely as a minor change. The firms that will win are those that leverage their existing data moats, re-architect their platforms to act more autonomously &mdash; with the right elements of human oversight &mdash; and realign their pricing to the actual value delivered.</p>
+      <p class="verdict-body">The AI evolution is not a closing door; it is an opened gate. The SaaS industry is simply walking through it into a new, more automated, and far more powerful era.</p>
+    </div>
+
+    <div class="closing-cta">
+      <h3>More thoughts to come.</h3>
+      <p>This is part of an ongoing series on technology, business strategy, and the world being reshaped by AI.</p>
+      <a href="index.html" class="cta-link">Return to alancyates.com</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="article-footer">
+  <span>R.I.P. or Rebirth? &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
