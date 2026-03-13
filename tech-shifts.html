@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turning Technology Shifts Into Human Advances &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1814;
+    --paper:  #faf9f6;
+    --mid:    #f2f0eb;
+    --muted:  #7a7469;
+    --rule:   #e0dbd0;
+    --accent: #b5460f;
+    --navy:   #1a2e4a;
+    --teal:   #1d706b;
+    --amber:  #e8832a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem;
+  }
+  .topbar-home {
+    font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600;
+    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0; z-index: 200;
+    height: 2px; background: var(--amber); width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .article-hero {
+    padding: 7rem 2rem 4rem;
+    max-width: 800px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article-eyebrow {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem;
+  }
+  .article-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .article-subtitle {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem; font-style: italic; font-weight: 400;
+    color: var(--muted); line-height: 1.6; max-width: 58ch;
+    margin-bottom: 1.75rem;
+  }
+  .article-meta {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0.25rem 0.65rem; border: 1px solid var(--rule);
+  }
+
+  .article-body {
+    max-width: 800px; margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p {
+    margin-bottom: 1.6rem; font-size: 1.08rem;
+    line-height: 1.85; color: #2a2620;
+  }
+  .prose p:first-child::first-letter {
+    font-family: 'Lora', serif;
+    font-size: 3.5rem; font-weight: 700;
+    float: left; line-height: 0.8;
+    margin: 0.1rem 0.15rem 0 0;
+    color: var(--accent);
+  }
+
+  .pull-quote {
+    border-left: 3px solid var(--amber);
+    padding: 1.25rem 1.75rem; margin: 2.5rem 0;
+    background: var(--mid);
+  }
+  .pull-quote blockquote {
+    font-family: 'Lora', serif; font-size: 1.25rem; font-style: italic;
+    font-weight: 600; line-height: 1.45; color: var(--navy);
+  }
+
+  .section-marker {
+    display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.75rem;
+  }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+
+  .closing-box {
+    margin: 3rem 0 0; padding-top: 2.5rem;
+    border-top: 2px solid var(--rule); text-align: center;
+  }
+  .closing-box h3 {
+    font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .closing-box p {
+    font-size: 0.95rem; color: var(--muted);
+    max-width: 50ch; margin: 0 auto 1.5rem;
+  }
+  .cta-link {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.18s;
+  }
+  .cta-link:hover { background: #9a3a0a; }
+
+  .article-footer {
+    border-top: 1px solid var(--rule); padding: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 800px; margin: 0 auto;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .article-title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Career &amp; Perspective &middot; 2026</p>
+  <h1 class="article-title">Turning Technology Shifts Into Human Advances</h1>
+  <p class="article-subtitle">From the PC revolution to the internet, mobile, cloud, and now AI &mdash; a career shaped by using each new wave of technology to help people do more, learn more, and build what comes next.</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~8 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+  <div class="prose">
+
+    <p>I have spent much of my career at the edge of major technology shifts.</p>
+
+    <p>Not because I was drawn to novelty for its own sake, but because each new wave of technology created a chance to help people accomplish more than had previously been possible. Again and again, I found myself pulled toward moments when a new capability was emerging &mdash; still rough around the edges, but clearly powerful enough to change how people worked, learned, communicated, built and grew products and organizations.</p>
+
+    <p>Looking back, the pattern is unmistakable.</p>
+
+    <p>Early on, word processing changed the nature of thought itself. It removed the friction of correction, revision, and retyping. Ideas became more fluid. Drafting became exploration. That may sound ordinary now, but at the time it felt liberating. It made it possible for me to produce ambitious policy work, including the first Comprehensive Energy Management Plan for the City of Los Angeles &mdash; becoming for me a practical example of how a better tool can expand the reach of human judgment.</p>
+
+    <p>Soon after, the arrival of the IBM PC transformed the scale of analysis. In Oklahoma state government, what had once required large amounts of manual effort could suddenly be modeled, recalculated, and rewritten with far more speed and precision. A very small, but ambitious staff could evaluate an entire state budget and develop legislation across agencies, functions, iterations, and political realities. Then the Macintosh pushed the frontier further, making communication itself richer, clearer, and more persuasive. Technology was no longer just about computation. It was becoming a medium for influence.</p>
+
+    <div class="pull-quote">
+      <blockquote>Technology was no longer just about computation. It was becoming a medium for influence.</blockquote>
+    </div>
+
+    <p>That lesson stayed with me.</p>
+
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Microsoft Years</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <p>At Microsoft, I had the opportunity to work through several of the most important platform transitions of the modern era. I helped found what became Microsoft&rsquo;s Worldwide Partner Program at a moment when the company was evolving beyond packaged software and into enterprise systems, technical channels, and large-scale ecosystems. That work was not just about distribution. It was about mobilizing thousands of organizations around a shared technological future. The result was an ecosystem model that became one of the most powerful engines of software adoption in the world.</p>
+
+    <p>As computing expanded beyond the desktop, my work moved with it. I was fortunate to help lead Microsoft&rsquo;s efforts in Windows CE, interactive television, and WebTV &mdash; early attempts to bring computing into the living room, onto new devices, and into more natural parts of daily life. Some of those markets were early. Some were messy. All of them were instructive. The larger point was clear: the future of technology would not stay confined to the PC. It would spread across devices, networks, media, and everyday experiences.</p>
+
+    <p>Later, leading business strategy for Microsoft Office, I worked on the transition from desktop software toward cloud-connected productivity, open document formats, and a more competitive, internet-shaped software landscape. That period reinforced another enduring belief: major technology shifts are rarely only technical. They are strategic, organizational, and cultural. Winning requires not just better products, but the ability to see around corners, align teams, anticipate market movement, and translate complex change into practical action.</p>
+
+    <p>That became even more evident in education.</p>
+
+    <p>As General Manager for Microsoft&rsquo;s worldwide education business, I focused on how technology could expand access, improve outcomes, and help institutions adapt at scale. The work ranged from commercial strategy to philanthropic initiatives, but the underlying mission was consistent: use technology to broaden opportunity. I saw firsthand how cloud delivery, lower-cost access models, and global ecosystem thinking could help schools and institutions reach more learners. I also saw how unequal access to transformative tools can widen divides if we do not act deliberately.</p>
+
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">After Microsoft</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <p>After Microsoft, I chose not to stay comfortably inside established categories. I moved toward younger companies and emerging fields: thin-client computing, digital health, tablets, cinema and drone systems, industrial IoT, immersive virtual reality, and now native AI platforms. That path may look eclectic from the outside. To me, it has been consistent. I have been drawn to technologies that open new capability, reshape markets, and require both imagination and disciplined execution.</p>
+
+    <p>In startup and advisory roles, I have worked on problems ranging from lowering the cost of computing, to expanding visual and immersive experiences, to improving industrial reliability, to helping organizations operate more intelligently. In each case, the challenge has been the same in essence: how do you take a promising technical breakthrough and turn it into real value for real people?</p>
+
+    <div class="pull-quote">
+      <blockquote>How do you take a promising technical breakthrough and turn it into real value for real people?</blockquote>
+    </div>
+
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The AI Moment</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <p>That question now defines the age of artificial intelligence.</p>
+
+    <p>AI is the most consequential technology shift we have seen. It is moving faster than prior waves, touching more functions at once, and raising deeper questions about work, judgment, trust, creativity, and human development. At Docugami, my focus has been on applying large language model advances in a grounded, practical way &mdash; helping organizations bridge the gap between human communication in documents and the structured data systems that businesses rely on to operate. It is a powerful example of what AI can do when it is applied not as spectacle, but as infrastructure for productivity and better decision-making.</p>
+
+    <p>But the biggest implications of AI are not only operational. They are human.</p>
+
+    <p>Every company is now being forced to rethink its products, workflows, and competitive assumptions. Every worker faces the challenge of adaptation. And every student is entering a world in which memorization matters less, while critical thinking, judgment, creativity, ethics, and the ability to work effectively with intelligent tools matter far more.</p>
+
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Larger Question</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <p>That is why, at this stage of my career, education has come back to the center of my thinking.</p>
+
+    <p>I began as a teacher. Across the decades since, whether in government, Microsoft, startups, or board roles, I have repeatedly been working on the same larger problem: how to help people thrive as the tools around them change. The technologies have changed dramatically. The human question has not.</p>
+
+    <p>What gives me optimism is that people are more adaptable than they sometimes realize. Institutions are slower, and that is where leadership matters. Real progress requires more than enthusiasm for innovation. It requires translation, trust, persistence, and a willingness to connect breakthrough capability to human need.</p>
+
+    <p>That, more than &ldquo;early adoption,&rdquo; is the story of my career.</p>
+
+    <p>I have tried to be early enough to see what is coming, practical enough to make it useful, and ambitious enough to help it matter at scale.</p>
+
+    <p>The next chapter will demand all of that again. And I intend to stay in the middle of it &mdash; curious, wary, optimistic, and committed to helping technology serve not just greater efficiency, but a more capable and more fully human future.</p>
+
+    <div class="closing-box">
+      <h3>More thoughts to come.</h3>
+      <p>This is part of an ongoing series on technology, leadership, and the human side of change.</p>
+      <a href="index.html" class="cta-link">Return to alancyates.com</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="article-footer">
+  <span>Turning Technology Shifts Into Human Advances &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
