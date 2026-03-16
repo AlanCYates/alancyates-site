@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Creative Destruction Strategy &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1814;
+    --paper:  #faf9f6;
+    --mid:    #f2f0eb;
+    --muted:  #7a7469;
+    --rule:   #e0dbd0;
+    --accent: #b5460f;
+    --navy:   #1a2e4a;
+    --teal:   #1d706b;
+    --amber:  #e8832a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem;
+  }
+  .topbar-home {
+    font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600;
+    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0; z-index: 200;
+    height: 2px; background: var(--amber); width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .article-hero {
+    padding: 7rem 2rem 4rem;
+    max-width: 800px; margin: 0 auto;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article-eyebrow {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem;
+  }
+  .article-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .article-subtitle {
+    font-family: 'Lora', serif; font-size: 1.15rem; font-style: italic;
+    font-weight: 400; color: var(--muted); line-height: 1.6;
+    max-width: 58ch; margin-bottom: 1.75rem;
+  }
+  .article-meta {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0.25rem 0.65rem; border: 1px solid var(--rule);
+  }
+
+  .article-body {
+    max-width: 800px; margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p {
+    margin-bottom: 1.6rem; font-size: 1.08rem;
+    line-height: 1.85; color: #2a2620;
+  }
+  .prose strong { font-weight: 600; color: var(--ink); }
+  .prose em { font-style: italic; }
+
+  .section-marker {
+    display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.75rem;
+  }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+
+  h2.section-title {
+    font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700;
+    line-height: 1.25; color: var(--ink); margin-bottom: 1.1rem;
+  }
+
+  .pull-quote {
+    border-left: 3px solid var(--amber);
+    padding: 1.25rem 1.75rem; margin: 2.5rem 0;
+    background: var(--mid);
+  }
+  .pull-quote blockquote {
+    font-family: 'Lora', serif; font-size: 1.2rem; font-style: italic;
+    font-weight: 600; line-height: 1.45; color: var(--navy);
+  }
+
+  .force-block {
+    margin: 1.25rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--mid);
+    border-left: 3px solid var(--navy);
+  }
+  .force-title {
+    font-family: 'Lora', serif; font-size: 1rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.4rem;
+  }
+  .force-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  .pillar-block {
+    margin: 1.25rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--mid);
+    border-left: 3px solid var(--amber);
+  }
+  .pillar-num {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.35rem;
+  }
+  .pillar-title {
+    font-family: 'Lora', serif; font-size: 1rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.4rem;
+  }
+  .pillar-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  .conclusion-box {
+    margin: 2.5rem 0;
+  }
+  .conclusion-box .inner {
+    background: #1a2e4a;
+    padding: 2rem;
+  }
+  .conclusion-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #2a9993; margin-bottom: 0.75rem;
+  }
+  .conclusion-title {
+    font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 700;
+    color: #ffffff; margin-bottom: 1rem; line-height: 1.3;
+  }
+  .conclusion-body {
+    font-size: 0.95rem; color: #c8dce8; line-height: 1.75; margin-bottom: 0.75rem;
+  }
+  .conclusion-body:last-child { margin-bottom: 0; }
+
+  .closing-cta {
+    margin: 3rem 0 0; padding-top: 2.5rem;
+    border-top: 2px solid var(--rule); text-align: center;
+  }
+  .closing-cta h3 {
+    font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .closing-cta p {
+    font-size: 0.95rem; color: var(--muted);
+    max-width: 50ch; margin: 0 auto 1.5rem;
+  }
+  .cta-link {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.18s;
+  }
+  .cta-link:hover { background: #9a3a0a; }
+
+  .article-footer {
+    border-top: 1px solid var(--rule); padding: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 800px; margin: 0 auto;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .article-title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Business Strategy &amp; AI &middot; 2026</p>
+  <h1 class="article-title">The Creative Destruction Strategy</h1>
+  <p class="article-subtitle">Software Business Strategy in the AI Era: Velocity, Convergence, and the New Frontier of Value Creation</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~8 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+  <div class="prose">
+
+    <p>For decades, the hallowed halls of business schools have been anchored by a few &ldquo;sacred&rdquo; texts. We&rsquo;ve all internalized Michael Porter&rsquo;s industrial structuralism in <em>Competitive Strategy</em>, Clayton Christensen&rsquo;s warnings on disruption in <em>The Innovator&rsquo;s Dilemma</em>, and the pursuit of untapped markets in <em>Blue Ocean Strategy</em>. These frameworks were designed for a world where competitive advantages were built over years and defended over decades.</p>
+
+    <p>However, looking back at the great pivots of the last thirty years &mdash; many of which I witnessed or led from within the engine room of the industry &mdash; it is clear that we are no longer just &ldquo;managing&rdquo; a platform shift. We are entering an era where the fundamental nature of value creation is shifting from delivering tools to autonomously generating outcomes.</p>
+
+    <!-- STRUCTURAL FORCES -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The New Structural Forces</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">Beyond the Five Forces</h2>
+
+    <p>Michael Porter taught us to look at industry attractiveness through five stable forces. In the software world of 2026, those forces have compressed into a high-energy environment where pressure comes from three specific directions:</p>
+
+    <div class="force-block">
+      <div class="force-title">The Aggregator&rsquo;s Reach</div>
+      <p class="force-body">Large-scale incumbents are absorbing specialized software value as standard, &ldquo;checkbox&rdquo; features &mdash; commoditizing what was once a competitive moat overnight.</p>
+    </div>
+
+    <div class="force-block">
+      <div class="force-title">The Hyper-Efficient Startup</div>
+      <p class="force-body">Native AI teams are hitting massive revenue milestones &mdash; sometimes <strong>$100 million in ARR</strong> &mdash; with fewer than 50 people. The old assumption that scale requires headcount is gone.</p>
+    </div>
+
+    <div class="force-block">
+      <div class="force-title">The Upstream Invasion</div>
+      <p class="force-body">Model providers are moving &ldquo;downstream&rdquo; to compete directly with the application layers built on their APIs &mdash; threatening the very businesses they once enabled.</p>
+    </div>
+
+    <p>This reminds me of the expansion era of the 1990s. When I was on the channel marketing team at Microsoft, we saw Windows NT on the horizon and realized we needed to scale from the desktop to the enterprise. I launched what became the Worldwide Partner Program to build a global ecosystem. Back then, we were building the forces of the market. Today, those forces are converging, requiring us to be more integrated and essential than ever.</p>
+
+    <!-- RESPONSE WINDOW -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Collapse of the Response Window</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">A Call to Velocity</h2>
+
+    <p>Clayton Christensen famously argued that incumbents fail by ignoring &ldquo;low-end&rdquo; disruptors. Historically, this afforded a grace period; shifts like Mobile and Cloud gave leadership teams roughly <strong>four to five years</strong> to react.</p>
+
+    <div class="pull-quote">
+      <blockquote>In the AI era, that window has vanished. While traditional strategy suggests a response window measured in years, today&rsquo;s reality is measured in quarters.</blockquote>
+    </div>
+
+    <p>We saw a version of this when the Microsoft Office franchise faced the rise of open-source and Google&rsquo;s suite. My strategy was radical transparency: securing internal buy-in to open our formats to OpenXML and working with technical leadership to standardize it. By opening the franchise, we saved it. Today, that same spirit of &ldquo;opening up&rdquo; and adapting at high velocity is the primary requirement for survival.</p>
+
+    <!-- OPPORTUNITY SIGNALS -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Opportunity Signals</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">Navigating the New Frontier</h2>
+
+    <p>Rather than viewing these shifts as threats, savvy leaders see them as <strong>opportunity signals</strong> &mdash; indicators of where the market is ready to reward innovation:</p>
+
+    <div class="force-block">
+      <div class="force-title">Pricing for Outcomes</div>
+      <p class="force-body">When competitors move from &ldquo;per-seat&rdquo; to &ldquo;per-task,&rdquo; it signals a massive opportunity to align your value directly with customer success rather than just usage.</p>
+    </div>
+
+    <div class="force-block">
+      <div class="force-title">Vertical Domain Expertise</div>
+      <p class="force-body">When model providers begin hiring domain experts in your vertical, it&rsquo;s a signal that your specific niche is becoming high-value. This is the moment to double down on proprietary data and deep workflow integration.</p>
+    </div>
+
+    <div class="force-block">
+      <div class="force-title">Speed as a Product</div>
+      <p class="force-body">Seeing a competitor scale past <strong>$50 million ARR</strong> without a massive sales force is an opportunity to re-engineer your own go-to-market strategy to be leaner and more product-led.</p>
+    </div>
+
+    <!-- TRANSFORMATION MANDATE -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">The Transformation Mandate</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <h2 class="section-title">How to Thrive</h2>
+
+    <p>As I work today with various customers, ISVs, partners, and startups, the most exhilarating part of this era is seeing how firms can positively transform. To thrive, software leaders should focus on three pillars of execution:</p>
+
+    <div class="pillar-block">
+      <div class="pillar-num">Pillar 01</div>
+      <div class="pillar-title">Deep Customer Workflow Integration</div>
+      <p class="pillar-body">Move beyond &ldquo;thin wrappers.&rdquo; The winners will be those who integrate AI so deeply into proprietary business processes that it becomes impossible for a generic model provider or a megavendor to unseat them.</p>
+    </div>
+
+    <div class="pillar-block">
+      <div class="pillar-num">Pillar 02</div>
+      <div class="pillar-title">Radical Self-Cannibalization</div>
+      <p class="pillar-body">Just as Adobe successfully killed its Creative Suite to move to the Creative Cloud subscription model, today&rsquo;s leaders must be willing to dismantle their own legacy revenue lines to build the AI-native versions of their products.</p>
+    </div>
+
+    <div class="pillar-block">
+      <div class="pillar-num">Pillar 03</div>
+      <div class="pillar-title">Outcome-Based Differentiation</div>
+      <p class="pillar-body">The new Blue Ocean is <strong>guaranteed outcomes</strong>. If your software doesn&rsquo;t just &ldquo;help&rdquo; a user do a task but actually <em>completes</em> the task for them, you have built a modern moat. The metric shifts from adoption to achievement.</p>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Conclusion</span>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="conclusion-box">
+      <div class="inner">
+        <div class="conclusion-label">The Exhilarating Path Forward</div>
+        <div class="conclusion-title">The most dangerous move is standing still.</div>
+        <p class="conclusion-body">The lesson from both the foundational strategy texts, my own career, and the current obvious reality is that in previous transitions, a 50% survival rate was common &mdash; but that assumed a five-year pivot window. We no longer have that time.</p>
+        <p class="conclusion-body">For the modern software business, this is a time of incredible creative destruction. We are not just building software; we are building the future of value creation. By embracing <strong style="color:#ffffff;">rapid adaptation, deep integration, and a bias toward action</strong>, firms can do more than just survive &mdash; they can define this new era of technology.</p>
+      </div>
+    </div>
+
+    <div class="closing-cta">
+      <h3>More thoughts to come.</h3>
+      <p>This is part of an ongoing series on technology, business strategy, and the world being reshaped by AI.</p>
+      <a href="index.html" class="cta-link">Return to alancyates.com</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="article-footer">
+  <span>The Creative Destruction Strategy &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
