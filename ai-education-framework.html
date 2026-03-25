@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Collaborative Framework for Trusted AI in Education &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --paper: #faf9f6; --mid: #f2f0eb;
+    --muted: #7a7469; --rule: #e0dbd0; --accent: #b5460f;
+    --navy: #1a2e4a; --teal: #1d706b; --amber: #e8832a;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.7; font-size: 1.05rem; overflow-x: hidden; }
+
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,249,246,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 2rem; }
+  .topbar-home { font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+  .progress-bar { position: fixed; top: 0; left: 0; z-index: 200; height: 2px; background: var(--amber); width: 0%; transition: width 0.1s linear; }
+
+  .article-hero { padding: 7rem 2rem 4rem; max-width: 800px; margin: 0 auto; border-bottom: 1px solid var(--rule); }
+  .article-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; }
+  .article-title { font-family: 'Lora', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.75rem; }
+  .article-subtitle { font-family: 'Lora', serif; font-size: 1.05rem; font-style: italic; font-weight: 400; color: var(--muted); line-height: 1.6; max-width: 62ch; margin-bottom: 1.75rem; }
+  .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0.25rem 0.65rem; border: 1px solid var(--rule); }
+
+  .article-body { max-width: 800px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p { margin-bottom: 1.6rem; font-size: 1.08rem; line-height: 1.85; color: #2a2620; }
+  .prose strong { font-weight: 600; color: var(--ink); }
+  .prose em { font-style: italic; }
+
+  .section-marker { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.75rem; }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  h2.section-title { font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; color: var(--ink); margin-bottom: 1.1rem; }
+  h3.sub-title { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.6rem; }
+
+  .pull-quote { border-left: 3px solid var(--amber); padding: 1.25rem 1.75rem; margin: 2.5rem 0; background: var(--mid); }
+  .pull-quote blockquote { font-family: 'Lora', serif; font-size: 1.2rem; font-style: italic; font-weight: 600; line-height: 1.45; color: var(--navy); }
+
+  .element-block { margin: 1.25rem 0; padding: 1.35rem 1.5rem; background: var(--mid); border-left: 3px solid var(--navy); }
+  .element-num { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.35rem; }
+  .element-title { font-family: 'Lora', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+  .element-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  .step-block { margin: 1.25rem 0; padding: 1.35rem 1.5rem; background: var(--mid); border-left: 3px solid var(--amber); }
+  .step-num { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+  .step-title { font-family: 'Lora', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  .stakeholder-list { margin: 1.5rem 0; }
+  .stakeholder-item { padding: 1rem 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; }
+  .stakeholder-item:last-child { border-bottom: none; }
+  .stakeholder-role { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); padding-top: 0.15rem; }
+  .stakeholder-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; }
+
+  .closing-box { background: #1a2e4a; padding: 2rem; margin: 2.5rem 0; }
+  .closing-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #2a9993; margin-bottom: 0.75rem; }
+  .closing-title { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 1rem; line-height: 1.3; }
+  .closing-body { font-size: 0.95rem; color: #c8dce8; line-height: 1.75; margin-bottom: 0.75rem; }
+  .closing-body:last-child { margin-bottom: 0; }
+
+  .cta-block { margin: 3rem 0 0; padding-top: 2.5rem; border-top: 2px solid var(--rule); text-align: center; }
+  .cta-block h3 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem; }
+  .cta-block p { font-size: 0.95rem; color: var(--muted); max-width: 50ch; margin: 0 auto 1.5rem; }
+  .cta-link { display: inline-block; background: var(--accent); color: white; padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+  .cta-link:hover { background: #9a3a0a; }
+
+  .article-footer { border-top: 1px solid var(--rule); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 800px; margin: 0 auto; font-size: 0.75rem; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .article-title { font-size: 1.9rem; }
+    .stakeholder-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Education Policy &amp; AI &middot; 2026</p>
+  <h1 class="article-title">A Collaborative Framework for Trusted AI in Education</h1>
+  <p class="article-subtitle">A thought-leadership proposal for accreditors, institutions, faculty, students, policymakers, and responsible technologists &mdash; offered humbly, but urgently.</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~12 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+<div class="prose">
+
+  <p>We are not the first generation to face a moment of educational disruption. The industrial revolution demanded universal literacy. The post-war era demanded mass access to university. The internet demanded digital fluency. And in each of those moments, the institutions that served students best were the ones that <strong>moved deliberately but without delay</strong> &mdash; holding fast to quality and equity while embracing what was genuinely new.</p>
+
+  <p>We are in one of those moments again. Artificial intelligence is reshaping how knowledge is produced, how skills are learned, and how individuals navigate careers and civic life. The question before every college, accreditor, professional society, and policymaker is not <em>whether</em> to respond. It is <em>whether we will respond together</em>, with the speed, seriousness, and care that students deserve.</p>
+
+  <div class="pull-quote">
+    <blockquote>The institutions that serve students best are the ones that move deliberately but without delay &mdash; holding fast to quality and equity while embracing what is genuinely new.</blockquote>
+  </div>
+
+  <p>This paper is a call to action. It is offered humbly, in recognition of the complexity of what I am proposing. But it is offered urgently, because the window to shape AI&rsquo;s role in higher education &mdash; rather than merely react to it &mdash; is open right now.</p>
+
+  <!-- THE OPPORTUNITY -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">The Opportunity</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">The Opportunity We Cannot Afford to Miss</h2>
+
+  <p>For decades, the promise of truly personalized education &mdash; learning that adapts to each student&rsquo;s pace, background, and goals &mdash; remained out of reach at scale. The economics were simply prohibitive. A human tutor for every student is a luxury very few can afford.</p>
+
+  <p>Agentic AI systems, deployed thoughtfully, change that calculus. They can provide <strong>real-time, adaptive, personalized guidance</strong> across subjects and skill levels &mdash; not as a replacement for human guidance, but as a powerful amplifier of it. When a student struggles with a concept at 11 p.m. before an exam, an AI tutoring agent can scaffold understanding, ask Socratic questions, and check for genuine comprehension.</p>
+
+  <p>Early deployments across community colleges, research universities, and corporate training programs already show measurable gains in student engagement, course completion, and learning outcomes &mdash; particularly among students who historically have been underserved by traditional lecture-and-exam models.</p>
+
+  <p>But here is the risk: AI in education is arriving <em>without</em> the kind of trusted, broadly accepted, evidence-based standards that allow students, families, and employers to know what a credential means. Without those standards, we risk a fragmented landscape of uneven quality, inequitable access, and eroding public trust &mdash; precisely when trust in higher education is already under strain.</p>
+
+  <!-- THE VISION -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">The Vision</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">What &ldquo;Good&rdquo; Looks Like: Four Interlocking Elements</h2>
+
+  <p>The vision this paper proposes is a disciplined application of principles that the best of American higher education has always held: that learning should be rigorous, equitable, transparent, and continuously improving. Applied to AI-assisted learning, those principles suggest a model with four interlocking elements:</p>
+
+  <div class="element-block">
+    <div class="element-num">Element 01</div>
+    <div class="element-title">Accredited, Personalized Coursework</div>
+    <p class="element-body">AI-assisted courses should meet the same accreditation standards as any other course &mdash; with clearly defined learning outcomes, evidence of student achievement, faculty oversight, and continuous improvement cycles. Accreditors should develop &mdash; urgently but carefully &mdash; criteria that govern how AI-assisted personalization is designed, validated, and monitored.</p>
+  </div>
+
+  <div class="element-block">
+    <div class="element-num">Element 02</div>
+    <div class="element-title">Agentic Technology, Properly Scoped</div>
+    <p class="element-body">Modern AI agents can guide students through multi-step problems, track progress over time, identify gaps in understanding, and connect students to human support when needed. But they must be scoped with care: agents should operate within well-defined pedagogical boundaries, with full security and transparency to students and faculty about what they are doing and why.</p>
+  </div>
+
+  <div class="element-block">
+    <div class="element-num">Element 03</div>
+    <div class="element-title">Teacher-in-the-Loop by Design</div>
+    <p class="element-body">No AI system &mdash; however sophisticated &mdash; should operate in a teaching context without meaningful human oversight. Faculty must retain authority over learning objectives, assessment design, and the ultimate judgment of student mastery. The &ldquo;teacher-in-the-loop&rdquo; is not a compliance checkbox; it is the pedagogical and ethical spine of the entire model.</p>
+  </div>
+
+  <div class="element-block">
+    <div class="element-num">Element 04</div>
+    <div class="element-title">Evolving, Trusted Standards</div>
+    <p class="element-body">AI capabilities will continue to change, sometimes faster than traditional accreditation cycles can accommodate. Standards must therefore be designed for continuous, evidence-based evolution &mdash; with modular governance structures that allow specific domains to be updated on shorter cycles, while high-level principles remain stable.</p>
+  </div>
+
+  <!-- COLLECTIVE ACTION -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">A Proposal for Collective Action</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">A Federated AI in Education Council</h2>
+
+  <p>The good news is that we do not need to start from scratch. The United States has, in ABET and its predecessor organizations, a proven template for how professional societies can federate around shared standards, build genuine expertise, and earn the trust of employers, institutions, and students alike. We can learn from it and compress the timeline significantly, without sacrificing legitimacy.</p>
+
+  <p>I propose the formation of a federated, multi-stakeholder AI in Education Council &mdash; an independent body convened by existing higher-education quality organizations, grounded in professional societies, and governed with explicit safeguards against undue industry influence.</p>
+
+  <div class="step-block">
+    <div class="step-num">Step One</div>
+    <div class="step-title">Convene with Urgency</div>
+    <p class="step-body">CHEA, a coalition of regional accreditors, and leading professional societies (ACM, IEEE, ASEE, and discipline-specific societies across the arts, sciences, and professions) should jointly convene a founding task force within the next six months. This task force should include faculty representatives, student voices, disability advocates, equity researchers, civil society organizations, and &mdash; in non-voting advisory roles &mdash; representatives from AI technology companies.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">Step Two</div>
+    <div class="step-title">Build in Modules, Not Monoliths</div>
+    <p class="step-body">Rather than attempting to develop a single comprehensive standard, the Council should organize its work into focused modules: AI Tutoring and Personalized Learning; Assessment Integrity and Academic Honesty; Data Governance and Student Privacy; AI Literacy as a Graduate Outcome; and Faculty Roles and Development. Each module should aim to produce a version 1.0 standard within twelve months, subject to a 60-day public comment process.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">Step Three</div>
+    <div class="step-title">Pilot, Evaluate, Refine</div>
+    <p class="step-body">Standards without evidence are just aspirations. The Council should partner with a network of &ldquo;AI in Education Labs&rdquo; &mdash; colleges and universities willing to pilot AI-assisted learning under rigorous ethical and research protocols &mdash; to generate the real-world evidence that drives standard refinement. Pilots should be transparent, publicly reported, and evaluated on student outcomes across demographic groups.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">Step Four</div>
+    <div class="step-title">Integrate with Existing Accreditation</div>
+    <p class="step-body">The Council&rsquo;s standards should be explicitly designed to plug into, not replace, existing accreditation frameworks. Regional accreditors and specialized accreditors like ABET should be encouraged to adopt the Council&rsquo;s AI-specific criteria as recognized supplementary standards &mdash; keeping core quality authority where it belongs while providing AI expertise they do not currently have the capacity to develop on their own.</p>
+  </div>
+
+  <!-- STAKEHOLDERS -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">The Role Each Stakeholder Must Play</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Genuine Commitment, Not Performative Participation</h2>
+
+  <p>A coalition of this kind will only succeed if each constituency shows up with genuine commitment. Here is a candid accounting of what each group must contribute:</p>
+
+  <div class="stakeholder-list">
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Accreditors</div>
+      <div class="stakeholder-body">Lead with courage. Develop draft AI criteria now &mdash; imperfect ones that can be improved &mdash; rather than waiting for consensus that may never fully arrive. Treat AI governance as a first-order accreditation concern, not a footnote.</div>
+    </div>
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Universities &amp; Colleges</div>
+      <div class="stakeholder-body">Appoint senior academic leaders to governance roles in this effort. Share outcome data honestly, including failures. Resist deploying AI tools that have not been independently validated simply because they are inexpensive or expedient.</div>
+    </div>
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Faculty</div>
+      <div class="stakeholder-body">Engage as architects of this transition, not its victims. Faculty expertise in pedagogy, disciplinary knowledge, and student development is irreplaceable &mdash; it is the essential ingredient that makes AI in education work. Faculty governance structures should be given genuine authority over AI deployment decisions.</div>
+    </div>
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Students</div>
+      <div class="stakeholder-body">Demand transparency. Ask your institutions what AI systems are being used in your education, how they are governed, and what the evidence says about their impact. Student representation in governance bodies should be substantive, not symbolic.</div>
+    </div>
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Technology Companies</div>
+      <div class="stakeholder-body">Contribute technical knowledge and resources generously. Accept that you will not write the standards for systems you sell. Support independent evaluation of your tools, including evaluations that produce unflattering results. Compete on quality and evidence, not on regulatory capture.</div>
+    </div>
+    <div class="stakeholder-item">
+      <div class="stakeholder-role">Policymakers</div>
+      <div class="stakeholder-body">Provide convening support and, where appropriate, funding for independent standard-setting &mdash; without directing substantive outcomes. Light-touch federal involvement that empowers independent institutions is the right model.</div>
+    </div>
+  </div>
+
+  <!-- URGENCY AND FUNDING -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">On Urgency, Humility &amp; Funding</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">A Note on Urgency and Humility</h2>
+
+  <p>I am aware that calls to action in education reform have a long and mixed record. Many urgent coalitions have been announced and quietly dissolved. I do not pretend this will be easy.</p>
+
+  <p>But I believe this moment is genuinely different. The technology is not waiting. AI tutoring systems, agentic learning tools, and automated assessment platforms are being deployed in American classrooms right now &mdash; with or without the standards I am proposing. The question is not whether change will come. It is whether the people most accountable for educational quality will help shape it.</p>
+
+  <div class="pull-quote">
+    <blockquote>The window to shape AI&rsquo;s role in education &mdash; rather than merely react to it &mdash; is open right now. Students deserve better than a standards vacuum.</blockquote>
+  </div>
+
+  <p>On funding: the most likely near-term path runs through major education-focused philanthropies &mdash; the Gates Foundation, Lumina Foundation, Hewlett Foundation, and Schmidt Futures all operate at the intersection of learning quality, credential reform, and emerging technology. Professional societies like ACM and IEEE already maintain standard-setting infrastructure that could stand up a credible Task Force within months. Industry funding is welcome but must be structurally bounded: a strict cap on total industry funding (no more than 20% of the operating budget), full public disclosure of all contributions, and no governance role for funders in the standard-setting process.</p>
+
+  <p>The path to self-sufficiency follows the ABET model: philanthropic and in-kind funding for years one through three, transitioning to dues and review fees by year four or five as institutional membership grows.</p>
+
+  <div class="closing-box">
+    <div class="closing-label">The Bottom Line</div>
+    <div class="closing-title">Students deserve learning that meets them where they are.</div>
+    <p class="closing-body">Students in American higher education and vocational education deserve learning that adapts to their needs and prepares them for a world that will require lifelong learning. They also deserve assurance that the institutions awarding their credentials have held those credentials to honest, rigorous, independently verified standards.</p>
+    <p class="closing-body">Both things are possible. But only if the people with the most to contribute &mdash; educators, accreditors, researchers, students, and yes, technologists &mdash; choose to <strong style="color:#ffffff;">build this together</strong>, with the urgency the moment demands and the care that students deserve.</p>
+  </div>
+
+  <div class="cta-block">
+    <h3>More thoughts to come.</h3>
+    <p>This is part of an ongoing series on education, AI, and the future we are building together.</p>
+    <a href="index.html" class="cta-link">Return to alancyates.com</a>
+  </div>
+
+</div>
+</main>
+
+<footer class="article-footer">
+  <span>A Collaborative Framework for Trusted AI in Education &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
