@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Early-Stage GTM Growth Playbook &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --paper: #faf9f6; --mid: #f2f0eb;
+    --muted: #7a7469; --rule: #e0dbd0; --accent: #b5460f;
+    --navy: #1a2e4a; --teal: #1d706b; --amber: #e8832a;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.7; font-size: 1.05rem; overflow-x: hidden; }
+
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,249,246,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0.9rem 2rem; }
+  .topbar-home { font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+  .progress-bar { position: fixed; top: 0; left: 0; z-index: 200; height: 2px; background: var(--amber); width: 0%; transition: width 0.1s linear; }
+
+  .article-hero { padding: 7rem 2rem 4rem; max-width: 800px; margin: 0 auto; border-bottom: 1px solid var(--rule); }
+  .article-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; }
+  .article-title { font-family: 'Lora', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.5rem; }
+  .article-subtitle { font-family: 'Lora', serif; font-size: 1.1rem; font-style: italic; font-weight: 400; color: var(--muted); line-height: 1.6; margin-bottom: 1.75rem; }
+  .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0.25rem 0.65rem; border: 1px solid var(--rule); }
+
+  .article-body { max-width: 800px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p { margin-bottom: 1.6rem; font-size: 1.08rem; line-height: 1.85; color: #2a2620; }
+  .prose strong { font-weight: 600; color: var(--ink); }
+  .prose em { font-style: italic; }
+
+  .section-marker { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.75rem; }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  h2.section-title { font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; color: var(--ink); margin-bottom: 1.1rem; }
+
+  .pull-quote { border-left: 3px solid var(--amber); padding: 1.25rem 1.75rem; margin: 2.5rem 0; background: var(--mid); }
+  .pull-quote blockquote { font-family: 'Lora', serif; font-size: 1.2rem; font-style: italic; font-weight: 600; line-height: 1.45; color: var(--navy); }
+
+  .principle-block { margin: 1.25rem 0; padding: 1.35rem 1.5rem; background: var(--mid); border-left: 3px solid var(--navy); }
+  .principle-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.35rem; }
+  .principle-title { font-family: 'Lora', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+  .principle-body { font-size: 0.95rem; color: #4a4540; line-height: 1.75; margin: 0; }
+
+  .cta-block { margin: 3rem 0 0; padding-top: 2.5rem; border-top: 2px solid var(--rule); text-align: center; }
+  .cta-block h3 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem; }
+  .cta-block p { font-size: 0.95rem; color: var(--muted); max-width: 50ch; margin: 0 auto 1.5rem; }
+  .cta-link { display: inline-block; background: var(--accent); color: white; padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+  .cta-link:hover { background: #9a3a0a; }
+
+  .article-footer { border-top: 1px solid var(--rule); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 800px; margin: 0 auto; font-size: 0.75rem; color: var(--muted); }
+
+  @media (max-width: 640px) { .article-title { font-size: 1.9rem; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Go-to-Market Strategy &middot; 2026</p>
+  <h1 class="article-title">An Early-Stage GTM Growth Playbook</h1>
+  <p class="article-subtitle">Hard-won guidance for revenue growth leaders at the earliest stages &mdash; a practitioner&rsquo;s map, drawn from real miles of failed tactics, mixed results, and hard-earned wins.</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~10 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+<div class="prose">
+
+  <p>This is not a textbook playbook. It is a practitioner&rsquo;s map, drawn from real miles of failed tactics, mixed results, hard-earned wins, and real business growth &mdash; built specifically for the early-stage environment where every dollar, every hire, and every pivot is loaded with consequence. Use it as a framework, not a formula. Adapt it relentlessly. Return to it every quarter. Build your own.</p>
+
+  <p>Early-stage companies face a specific and unforgiving paradox: you must simultaneously prove your idea, find your customers, and build the machine that will scale to serve them &mdash; all with a skeleton team and a budget that demands you justify every move. What follows is a field guide for doing exactly that.</p>
+
+  <!-- SECTION 1 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">1 &mdash; Foundation</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Team Network, ICP, and Positioning</h2>
+
+  <p>Before you write a single cold message or place a single ad, you have a structural asset most companies underuse: the combined professional network of your founding and early team. These are your first prospects, your first partners, your first mentors, and your most credible early champions. Mine this relentlessly. Warm introductions at the zero-budget stage are worth more than the most sophisticated outbound campaign. Start the reveal there, from stealth mode.</p>
+
+  <p>Once you are in market, your single most important intellectual exercise is nailing your Ideal Customer Profile (ICP). Not once &mdash; repeatedly. Revisit your ICP hypothesis every quarter. The discipline is to evolve it without thrashing the organization. Run a defined, bounded ICP experiment in parallel with your core hypothesis, so you can learn without losing focus.</p>
+
+  <div class="pull-quote">
+    <blockquote>Your website is not a brochure. It is the living, breathing expression of what you know about your customers and the outcomes you deliver for them. It should change as you learn.</blockquote>
+  </div>
+
+  <p>From the ICP, everything else in your messaging flows. Work hard on your positioning and your tagline. Treat the messaging framework as a living document, not a one-time offsite exercise. Test the language with real customers. Challenge it. Prove it. Only when it holds under scrutiny does it become the foundation your content, your sales motion, and your brand all stand on.</p>
+
+  <!-- SECTION 2 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">2 &mdash; Outbound</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Start Human, Learn Fast</h2>
+
+  <p>In the beginning, go outbound. Not because inbound does not matter, but because outbound teaches you the fastest. Outbound is an interrupt-driven motion &mdash; you are reaching someone who did not ask for you &mdash; which means the signal-to-noise feedback you receive is honest and immediate. Set a disciplined weekly and monthly target for sales conversations, and build your outbound activity backward from that number.</p>
+
+  <div class="principle-block">
+    <div class="principle-label">On LinkedIn</div>
+    <div class="principle-title">Work it with focus and creativity</div>
+    <p class="principle-body">Operate by job title, by background, by recent activity and posts. Experiment with messaging hooks. Use short-form video where you can &mdash; it dramatically increases response and humanizes the outreach in a way text cannot. The goal in these early sessions is not just to sell; it is to learn which triggers create genuine engagement.</p>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-label">On AI-Powered SDRs</div>
+    <div class="principle-title">Resist automating before you understand what works</div>
+    <p class="principle-body">Start with people. Learn the patterns, the objections, the hooks that convert. Only when a human-driven outbound motion has demonstrated repeatability does it make sense to augment it with AI &mdash; running alongside your human team, not instead of them. Use AI to eliminate the drudgery of volume, not to skip the learning.</p>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-label">On Cold Email</div>
+    <div class="principle-title">A late addition, not a launch tool</div>
+    <p class="principle-body">Reserve it for the moment you can target with surgical precision &mdash; when you know exactly who to reach, exactly what they care about, and exactly what outcome to promise them. Targeted event attendance can be the bridge between your outbound start and the next stage: the right events attract the right people with intent to learn, to evaluate alternatives, and to buy.</p>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">3 &mdash; Inbound</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Building the Inbound Engine</h2>
+
+  <p>Inbound takes longer to build than outbound but compounds more powerfully over time. The goal is to create a content and advertising ecosystem that draws in buyers already in motion &mdash; people whose intent is high, whose search behavior signals readiness, and whose engagement with your content predicts conversion.</p>
+
+  <p>AI is a genuine force-multiplier here. It eases the production of consistent, well-targeted content across social channels and your website. Use it to maintain publishing cadence without burning out your team. But be deliberate: this landscape is shifting fast, from traditional SEO to AI-native discovery. Stay informed, make intentional decisions, and launch deliberately rather than chasing every new tactic.</p>
+
+  <div class="pull-quote">
+    <blockquote>Do not optimize for the metrics that are easy to see &mdash; views, visits, clicks. Define the conversions that genuinely matter. Build your measurement framework around outcomes.</blockquote>
+  </div>
+
+  <p>A personal note: avoid succumbing to hyperbole, false claims, and exaggeration &mdash; which AI content generation constantly volunteers. The temptation is real. Don&rsquo;t do it unless you can back it up.</p>
+
+  <!-- SECTION 4 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">4 &mdash; Technology</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Simplicity as a Competitive Advantage</h2>
+
+  <p>The proliferation of GTM tools is extraordinary and dangerously seductive. There is always another platform promising to unlock your funnel. The discipline is ruthless simplification. A small, well-executed tech stack beats a large, poorly managed one every time. Choose tools that match your team&rsquo;s actual skills and bandwidth. Take enough time to evaluate, then decide &mdash; and execute with full commitment.</p>
+
+  <p>Build your stack one layer at a time. Nail each layer before adding the next. Know your budget, know your outcome targets, and hold every tool accountable to both. Disciplined execution matters more than tool sophistication.</p>
+
+  <!-- SECTION 5 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">5 &mdash; Talent</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">The Outsourced Expert Advantage</h2>
+
+  <p>Early-stage GTM teams face a structural hiring dilemma: you need expertise before you can afford full-time expertise. The solution, more often than people admit, is a well-managed network of small, specialized, external partners. A sharp, hungry two-person boutique agency will often outperform a mid-tier hire and dramatically outperform a large agency that treats your account as a rounding error.</p>
+
+  <div class="principle-block">
+    <div class="principle-label">The conditions for success</div>
+    <div class="principle-title">Clear upfront alignment on scope, budget, outcomes, and cadence</div>
+    <p class="principle-body">Small vendors operate like extended team members when they are treated as such. They can be moved quickly, briefed directly by leadership, and held to specific outcomes without the overhead of full-time management. For early-stage companies, this model preserves cash, accelerates learning, and often surfaces world-class talent that would otherwise be unreachable.</p>
+  </div>
+
+  <p>That said, every outsourced relationship requires an internal owner. GTM strategy is never fully delegable. The revenue growth leader must remain in the weeds of what is working, what is not, and why.</p>
+
+  <!-- SECTION 6 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">6 &mdash; Mindset</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Execution is the Differentiator</h2>
+
+  <p>A GTM playbook for an early-stage company is not a static game plan. It is a living framework for structured experimentation, leading toward a repeatable, multi-channel revenue motion. The analogy to an American football playbook is deliberately apt: running the same play repeatedly is the goal, once you&rsquo;ve earned the right to run it. The early stage is the process of earning that right.</p>
+
+  <p>What separates companies that find growth from those that do not is rarely the ideas in the playbook. It is the quality of execution against each idea. That means living inside your customers&rsquo; workflows, not just interviewing them. It means building the internal feedback loop from customer success back to product, engineering, and leadership. It means treating every outbound sequence, every piece of content, and every sales conversation as data.</p>
+
+  <div class="pull-quote">
+    <blockquote>The constraint is never resources at the earliest stage &mdash; it is focus. Choose a small number of moves, execute them with uncommon depth, measure with rigor, and iterate with honesty.</blockquote>
+  </div>
+
+  <p>This playbook can be started and scaled by a remarkably small, disciplined team. Choose a small number of moves, execute them with uncommon depth, measure with rigor, and iterate with honesty. That is how early-stage revenue compounds.</p>
+
+</div><!-- end prose -->
+
+<div style="background:#1a2e4a;padding:2rem;margin:2.5rem auto;max-width:68ch;">
+  <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#2a9993;margin-bottom:0.75rem;">A Framework Earned in the Field</div>
+  <div style="font-family:Georgia,serif;font-size:1.25rem;font-weight:700;color:#ffffff;margin-bottom:1rem;line-height:1.3;">Meant to be challenged, adapted, and improved.</div>
+  <p style="font-size:0.95rem;color:#c8dce8;line-height:1.75;margin-bottom:0;">This is not a formula. It is a starting point built from real company experience &mdash; and it only becomes valuable when you make it yours. Adapt it relentlessly. Return to it every quarter. And build your own version as you earn each new insight.</p>
+</div>
+
+<div class="cta-block">
+  <h3>More thoughts to come.</h3>
+  <p>This is part of an ongoing series on technology, business strategy, and the world being reshaped by AI.</p>
+  <a href="index.html" class="cta-link">Return to alancyates.com</a>
+</div>
+
+</main>
+
+<footer class="article-footer">
+  <span>An Early-Stage GTM Growth Playbook &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
