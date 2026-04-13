@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Than Vibing &mdash; Alan Yates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --paper: #faf9f6; --mid: #f2f0eb;
+    --muted: #7a7469; --rule: #e0dbd0; --accent: #b5460f;
+    --navy: #1a2e4a; --teal: #1d706b; --amber: #e8832a;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-weight: 400; line-height: 1.7; font-size: 1.05rem; overflow-x: hidden; }
+
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,249,246,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); display: flex; align-items: center; padding: 0.9rem 2rem; }
+  .topbar-home { font-family: 'Lora', serif; font-size: 0.9rem; font-weight: 600; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+  .topbar-home::before { content: '\2190'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+  .progress-bar { position: fixed; top: 0; left: 0; z-index: 200; height: 2px; background: var(--amber); width: 0%; transition: width 0.1s linear; }
+
+  .article-hero { padding: 7rem 2rem 4rem; max-width: 800px; margin: 0 auto; border-bottom: 1px solid var(--rule); }
+  .article-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; }
+  .article-title { font-family: 'Lora', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.75rem; }
+  .article-subtitle { font-family: 'Lora', serif; font-size: 1.1rem; font-style: italic; font-weight: 400; color: var(--muted); line-height: 1.6; max-width: 58ch; margin-bottom: 1.75rem; }
+  .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .article-author { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .article-date { font-size: 0.82rem; color: var(--muted); }
+  .article-read-time { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0.25rem 0.65rem; border: 1px solid var(--rule); }
+
+  .article-body { max-width: 800px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+  .prose { max-width: 68ch; margin: 0 auto; }
+  .prose p { margin-bottom: 1.6rem; font-size: 1.08rem; line-height: 1.85; color: #2a2620; }
+  .prose strong { font-weight: 600; color: var(--ink); }
+  .prose em { font-style: italic; }
+
+  .section-marker { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.75rem; }
+  .section-marker-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-marker-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+  h2.section-title { font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; color: var(--ink); margin-bottom: 1.1rem; }
+
+  .pull-quote { border-left: 3px solid var(--amber); padding: 1.25rem 1.75rem; margin: 2.5rem 0; background: var(--mid); }
+  .pull-quote blockquote { font-family: 'Lora', serif; font-size: 1.2rem; font-style: italic; font-weight: 600; line-height: 1.45; color: var(--navy); }
+
+  .tool-row { display: grid; grid-template-columns: 100px 1fr; gap: 1.25rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+  .tool-row:last-child { border-bottom: none; }
+  .tool-name { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); padding-top: 0.1rem; }
+  .tool-desc { font-size: 0.95rem; color: #4a4540; line-height: 1.75; }
+
+  .feature-list { margin: 1.25rem 0; padding: 1.35rem 1.5rem; background: var(--mid); border-left: 3px solid var(--navy); }
+  .feature-list-title { font-family: 'Lora', serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem; }
+  .feature-item { font-size: 0.92rem; color: #4a4540; line-height: 1.7; padding: 0.25rem 0 0.25rem 1.25rem; position: relative; }
+  .feature-item::before { content: '\2192'; position: absolute; left: 0; color: var(--amber); }
+
+  .signature { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-size: 0.92rem; color: var(--muted); font-style: italic; }
+  .signature strong { color: var(--ink); font-style: normal; }
+
+  .cta-block { margin: 3rem 0 0; padding-top: 2.5rem; border-top: 2px solid var(--rule); text-align: center; }
+  .cta-block h3 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 0.75rem; }
+  .cta-block p { font-size: 0.95rem; color: var(--muted); max-width: 50ch; margin: 0 auto 1.5rem; }
+  .cta-link { display: inline-block; background: var(--accent); color: white; padding: 0.7rem 1.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+  .cta-link:hover { background: #9a3a0a; }
+
+  .article-footer { border-top: 1px solid var(--rule); padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 800px; margin: 0 auto; font-size: 0.75rem; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .article-title { font-size: 1.9rem; }
+    .tool-row { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">Alan Yates</a>
+</nav>
+
+<header class="article-hero">
+  <p class="article-eyebrow">Building &amp; Technology &middot; 2026</p>
+  <h1 class="article-title">More Than Vibing</h1>
+  <p class="article-subtitle">I built a real app without writing code. It wasn&rsquo;t vibe coding &mdash; it was something better. What happens when a business executive doesn&rsquo;t wait for funding, just for the right tools.</p>
+  <div class="article-meta">
+    <span class="article-author">By Alan Yates</span>
+    <span class="article-date">2026</span>
+    <span class="article-read-time">~10 min read</span>
+  </div>
+</header>
+
+<main class="article-body">
+<div class="prose">
+
+  <!-- SECTION 1 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">The Idea That Wouldn&rsquo;t Go Away</span><div class="section-marker-line"></div></div>
+
+  <p>I&rsquo;ve spent most of my career in technology &mdash; starting and running business units at Microsoft, leading executive roles at early-stage companies in IoT, VR, and AI. I&rsquo;ve sat in plenty of product reviews, been a senior product manager, worked with brilliant engineers, and watched software get built &mdash; from the outside. But I&rsquo;ve never been a developer. I don&rsquo;t write code. And for most of my career, that distinction &mdash; business leader versus builder &mdash; felt permanent.</p>
+
+  <p>About two years ago, I had an idea for an application I wanted to build: a family operating system. Not a photo album, not a group chat, but something genuinely useful for how distributed families could function better and thrive together despite distances &mdash; stories, milestones, shared media, games you could play together online, a visual family map, a way to capture and preserve personal history before it&rsquo;s lost. I called it Kinsaga.</p>
+
+  <p>A year ago, I took a first run at it. It was rough going. The tools were capable, the AI assistants were impressive in isolated bursts, but the experience of actually building something coherent &mdash; with persistent architecture, real data, a working interface, deployed to the internet &mdash; felt just out of reach. So I waited, probably longer than I should have. I used that time to study the competitive landscape carefully, to get very clear on what I wanted to build and why existing products fell short. And I kept watching the AI tooling evolve.</p>
+
+  <p>When I finally felt ready to try again, the experience was so different from that first attempt that I&rsquo;m still a little astonished by it.</p>
+
+  <div class="pull-quote">
+    <blockquote>What I did was closer to architecture and orchestration. I was drawing blueprints, making structural decisions, directing where each piece needed to go, and holding the whole thing accountable to a clear vision. AI amplifies intention. It doesn&rsquo;t replace it.</blockquote>
+  </div>
+
+  <p>The descriptive term that has taken over this kind of AI-assisted building is everywhere &mdash; &ldquo;vibe coding&rdquo; &mdash; a term that implies you describe a feeling, a rough direction, and let the AI improvise the rest. I can absolutely see why a developer would call it that. But that&rsquo;s not what this was for me. The distinction matters: because the quality of what gets built depends entirely on the quality of the thinking that guides it.</p>
+
+  <!-- SECTION 2 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">Three Screens, One Project</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">The Workflow</h2>
+
+  <p>My working environment during this project was three screens running simultaneously. On my browser I had Kinsaga itself &mdash; the live prototype, updating in near-real time &mdash; along with tabs for GoDaddy, Railway, and Cloudflare. In a second window I had Cursor, the AI-powered coding environment. And in a third, I had Claude.</p>
+
+  <div style="margin:1.75rem 0;padding:1.35rem 1.5rem;background:var(--mid);border-left:3px solid var(--navy);">
+    <div class="tool-row">
+      <div class="tool-name">Claude</div>
+      <div class="tool-desc">Planning partner and translator &mdash; my engineer. Before writing a single prompt for Cursor, I spent time discussing the project: technology stack, features, deployment environment, alternatives. Then Claude turned each agreed plan into a detailed, precise prompt for Cursor.</div>
+    </div>
+    <div class="tool-row">
+      <div class="tool-name">Cursor</div>
+      <div class="tool-desc">The builder. It received the prompt and went to work &mdash; reading existing files, writing code, reviewing what it wrote, catching its own mistakes, and narrating its thinking as it went.</div>
+    </div>
+    <div class="tool-row">
+      <div class="tool-name">Me</div>
+      <div class="tool-desc">Product manager, QA tester, and the person with the vision. The process for each new feature was consistent: describe intent, discuss the approach, consider alternatives, make a decision, build it, test it, refine it.</div>
+    </div>
+  </div>
+
+  <p>The technology stack the recommendations converged on: React and TypeScript on the front end, Node.js on the back end, PostgreSQL for the database, Railway for hosting. Once I had that foundation agreed upon, everything else could be built on top of it. I could not have invented those choices myself &mdash; but had no problem deciding, based on the answers I was getting back.</p>
+
+  <!-- SECTION 3 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">Watching the Machine Think</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Genuinely Stopped in My Tracks</h2>
+
+  <p>I want to try to describe what it&rsquo;s like to watch Cursor work, because I don&rsquo;t think I can convey the experience without acknowledging that it genuinely stopped me in my tracks the first time I saw it.</p>
+
+  <p>You give Cursor a prompt. And then it starts talking to itself. It reads existing files in the codebase. It reasons about what needs to change and why. It writes new code, then reviews what it wrote, catches its own mistakes, revises them. It checks whether the application will build. It considers edge cases. It narrates its own thinking as it goes.</p>
+
+  <p>Watching this process &mdash; an AI agent autonomously navigating a complex software project, making real decisions, self-correcting in real time &mdash; I was, and I don&rsquo;t use this word lightly, gob-smacked. It also gave me a profound new appreciation for what developers have been doing all along. The craft, the patience, the systematic thinking required to build software well &mdash; I understood it differently after watching an AI replicate it step by step.</p>
+
+  <div class="pull-quote">
+    <blockquote>Late in the project, Claude gained access to my browser directly via MCP &mdash; Model Context Protocol. Instead of screenshots, Claude could see the live application, click through it, read the developer console, inspect network requests. The testing loop compressed into something almost seamless.</blockquote>
+  </div>
+
+  <p>When Cursor finished a step, it would produce a summary of exactly what it had done: which files it had changed, what logic it had added, what edge cases it had handled. I would copy that summary and bring it back to Claude. Claude and I would then test the result together &mdash; and this is where the collaboration got genuinely interesting.</p>
+
+  <!-- SECTION 4 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">More Than Just Code</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">Product Thinking at the Center</h2>
+
+  <p>One thing I want to be clear about: this project was not purely a coding exercise. A substantial portion of the conversation with Claude was about product decisions, user experience, and design.</p>
+
+  <p>Should the sidebar navigation be organized by category or flattened into a single list? What should the monthly games leaderboard look like, and how should it handle tie-breaking? When a user uploads a photo, what information should they be prompted to add? These are not technical questions. They are product questions, and Claude engaged with them as a genuine thought partner &mdash; offering recommendations when I asked, pushing back when it had a different view, flagging implications I hadn&rsquo;t considered, but putting me in the driver&rsquo;s seat.</p>
+
+  <p>I found myself in a rhythm that felt natural surprisingly quickly. Describe the intent. Discuss the options. Make a decision. Build it. Test it. Refine it. This is exactly how I&rsquo;ve always worked with product and engineering teams &mdash; except that the team was now an AI, available at any hour, with total recall of everything we&rsquo;d discussed, and no calendar conflicts.</p>
+
+  <p>There were rough edges, of course. Some features took multiple iterations to get right. There were bugs, encoding issues, database migrations that didn&rsquo;t run on the first try, timezone edge cases in a leaderboard calculation that caused month navigation to display the wrong labels. Each of these required diagnosis, a fix, and a re-test. The process is iterative by nature &mdash; but the iterations are fast, and the feedback loop is tight enough that forward momentum rarely stalled for long.</p>
+
+  <!-- SECTION 5 -->
+  <div class="section-marker"><div class="section-marker-line"></div><span class="section-marker-label">What This Means</span><div class="section-marker-line"></div></div>
+  <h2 class="section-title">For Me, and Maybe for You</h2>
+
+  <p>Kinsaga is now a working MVP application, deployed to the internet, with real infrastructure. Here is what got built:</p>
+
+  <div class="feature-list">
+    <div class="feature-list-title">What shipped</div>
+    <div class="feature-item">A family map with three different views</div>
+    <div class="feature-item">A games hub with a monthly leaderboard</div>
+    <div class="feature-item">A media library with upload and delete</div>
+    <div class="feature-item">Stories, milestones, and a family historian powered by AI</div>
+    <div class="feature-item">A public-facing family page</div>
+    <div class="feature-item">A mobile-optimized interface with bottom navigation</div>
+    <div class="feature-item">Cloud hosting, a production database, and media files stored in Cloudflare R2</div>
+  </div>
+
+  <p><strong>I did not write a single line of code to produce any of it.</strong></p>
+
+  <p>What I did was think clearly about what I wanted, communicate it precisely, evaluate what came back, and make good decisions about what to do next. Those are skills I&rsquo;ve spent a career developing. It turns out they transfer remarkably well to AI-assisted software development.</p>
+
+  <p>The implication of this &mdash; for any experienced business professional who has had an application idea they assumed required a technical co-founder &mdash; is significant. The barrier between &ldquo;I have an idea&rdquo; and &ldquo;I have a working product&rdquo; has dropped dramatically. It has not disappeared: you still need clarity of thought, patience with iteration, and a genuine willingness to engage with the details. But the requirement that you personally understand how to write TypeScript, configure a PostgreSQL schema, or set up cloud storage? That requirement is gone.</p>
+
+  <div class="pull-quote">
+    <blockquote>Call it orchestrated development. Not vibe coding &mdash; which undersells the rigor required &mdash; and not traditional development &mdash; which overstates the technical barrier. A mode of building where domain expertise, product thinking, and clear communication are the primary qualifications.</blockquote>
+  </div>
+
+  <p>If you&rsquo;ve spent years developing those skills in business, you may be closer to being a builder than you ever realized.</p>
+
+  <div class="signature">
+    <p><em>I&rsquo;m ecstatic with what I&rsquo;ve built. I&rsquo;m more excited about where it&rsquo;s going. And I&rsquo;m genuinely amazed that I built it at all. But don&rsquo;t use it yet &mdash; I am testing, improving it, and will release a beta when I&rsquo;m ready. Send me an email if you want to be a beta tester!</em></p>
+    <p style="margin-top:1rem;"><strong>Alan Yates</strong><br>Chief Business Officer, Docugami &middot; Founder, Kinsaga</p>
+  </div>
+
+</div><!-- end prose -->
+
+<div style="background:#1a2e4a;padding:2rem;margin:2.5rem auto;max-width:68ch;">
+  <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#2a9993;margin-bottom:0.75rem;">Interested in Kinsaga?</div>
+  <div style="font-family:Georgia,serif;font-size:1.25rem;font-weight:700;color:#ffffff;margin-bottom:1rem;line-height:1.3;">Beta testers welcome.</div>
+  <p style="font-size:0.95rem;color:#c8dce8;line-height:1.75;margin-bottom:0;">Kinsaga is a family operating system &mdash; stories, milestones, shared media, games, and a visual family map, all in one place. If you&rsquo;d like to be an early tester, reach out at <a href="mailto:alany@msn.com" style="color:#ffffff;text-decoration:underline;">alany@msn.com</a>.</p>
+</div>
+
+<div class="cta-block">
+  <h3>More thoughts to come.</h3>
+  <p>This is part of an ongoing series on technology, building, and the world being reshaped by AI.</p>
+  <a href="index.html" class="cta-link">Return to alancyates.com</a>
+</div>
+
+</main>
+
+<footer class="article-footer">
+  <span>More Than Vibing &middot; Alan Yates &middot; 2026</span>
+  <span>alancyates.com</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+</body>
+</html>
