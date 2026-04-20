@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Thinking We Can&rsquo;t Outsource &mdash; Alan Yates</title>
+<meta name="description" content="A practical framework for critical thinking in partnership with AI &mdash; for educators, philanthropists, and curriculum leaders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1a1814;
+    --paper:      #faf9f6;
+    --mid:        #f2f0eb;
+    --muted:      #7a7469;
+    --rule:       #e0dbd0;
+    --accent:     #b5460f;
+    --navy:       #1a2e4a;
+    --teal:       #1d706b;
+    --amber:      #e8832a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    overflow-x: hidden;
+  }
+
+  /* -- TOP BAR -- */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem;
+  }
+  .topbar-home {
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .topbar-home::before { content: '&larr;'; font-size: 0.8rem; }
+  .topbar-home:hover { color: var(--accent); }
+
+  .topbar-downloads { display: flex; gap: 0.75rem; align-items: center; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .dl-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* -- READING PROGRESS -- */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: var(--accent); z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  /* -- MAIN -- */
+  main {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 8rem 1.75rem 4rem;
+  }
+
+  /* -- MASTHEAD -- */
+  .masthead { margin-bottom: 4rem; }
+  .eyebrow {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .title {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .byline {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* -- PROSE -- */
+  .prose {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+  .prose p { margin-bottom: 1.5rem; }
+  .prose p.lede {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #2a2621;
+  }
+  .prose p.lede::first-letter {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: 3.4rem;
+    float: left;
+    line-height: 0.9;
+    padding: 0.3rem 0.6rem 0 0;
+    color: var(--accent);
+  }
+  .prose strong { font-weight: 700; color: var(--ink); }
+  .prose em { font-style: italic; }
+
+  /* Part headings */
+  .part-head {
+    margin: 3.5rem 0 1.75rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Subheadings within a part */
+  .sub-head {
+    margin: 2.25rem 0 0.9rem;
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .sub-head .num {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 0.4rem;
+  }
+
+  /* Section divider (ornament) */
+  .divider {
+    text-align: center;
+    margin: 2.5rem 0;
+    color: var(--rule);
+    font-size: 1.3rem;
+    letter-spacing: 0.5rem;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 2.5rem -1rem;
+    padding: 1.75rem 2rem;
+    border-left: 3px solid var(--accent);
+    background: var(--mid);
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #2a2621;
+  }
+  .pull-quote-attr {
+    display: block;
+    margin-top: 0.9rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-style: normal;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Further reading */
+  .further-head {
+    margin: 4rem 0 1.5rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .further-list { font-size: 1rem; }
+  .further-list p {
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    color: #3a3530;
+  }
+
+  /* Closing signature */
+  .sig {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .sig-sub {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Footer return CTA */
+  .return-cta {
+    margin: 4rem 0 0;
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .return-cta a {
+    display: inline-block;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+    padding: 0.3rem 0;
+  }
+  .return-cta a:hover { color: var(--accent); }
+
+  /* -- MOBILE -- */
+  @media (max-width: 640px) {
+    .topbar { padding: 0.75rem 1rem; }
+    .topbar-downloads { gap: 0.4rem; }
+    .dl-btn { padding: 0.35rem 0.65rem; font-size: 0.65rem; }
+    main { padding: 6.5rem 1.1rem 3rem; }
+    .prose p.lede::first-letter { font-size: 2.6rem; }
+    .pull-quote { margin: 2rem 0; padding: 1.25rem 1.25rem; font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-home">alancyates.com</a>
+  <div class="topbar-downloads">
+    <a class="dl-btn" href="Critical_Thinking_With_AI.docx" download>Word</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="eyebrow">Essay &middot; Education &amp; AI</div>
+    <h1 class="title">The Thinking We Can&rsquo;t Outsource</h1>
+    <p class="subtitle">A practical framework for critical thinking in partnership with AI.</p>
+    <div class="byline">For educators, philanthropists, and curriculum leaders &middot; By Alan Yates</div>
+  </header>
+
+  <!-- PROSE -->
+  <article class="prose">
+
+    <p class="lede">The phrase <em>critical thinking</em> is everywhere in the conversation about artificial intelligence and education. It appears in nearly every policy paper, every keynote, every school district&rsquo;s new AI policy &mdash; usually as the reassuring counterweight to a long list of worries. Yes, the argument goes, AI will change everything, but we will protect critical thinking. The trouble is that the phrase is almost never defined in ways that a teacher, a curriculum designer, a parent, or a student could actually practice on a Tuesday morning.</p>
+
+    <p>This essay is an attempt to repair that gap. It describes, with practical depth, what critical thinking in partnership with AI really means, how it is learned, how it is practiced inside actual AI interactions, and how it should be taught. It is written for the people who will shape how education evolves in the coming decade: school and district leaders, university administrators, curriculum developers for secondary and higher education, philanthropic funders, and the policymakers and foundations who choose where to point the resources.</p>
+
+    <p>The essay starts with my own experience, in working with AI, with people using AI in business, and with my past experience introducing personal computing to educators around the world. But given that distance, it more importantly comes from articles, research, and work by those much more genuinely practiced on the topic than me. The sources I found useful are at the end.</p>
+
+    <p>The stakes are just surfacing but appear to be very clear. A 2025 study from the MIT Media Lab, led by Nataliya Kosmyna and her colleagues, used EEG to monitor fifty-four participants as they wrote essays in three conditions &mdash; with an AI assistant, with a search engine, and with no tools at all. Brain connectivity systematically weakened as external support increased. The AI-assisted group showed the lowest neural engagement during writing, produced the most homogeneous output, and &mdash; most strikingly &mdash; when later asked to write without assistance, still exhibited reduced engagement. The researchers named this effect <strong>cognitive debt</strong>. That&rsquo;s another term you will hear quite often, for good reason.</p>
+
+    <p>A separate Microsoft Research and Carnegie Mellon study presented at CHI 2025 surveyed three hundred and nineteen knowledge workers across nine hundred and thirty-six real-world AI use cases and found that the more users trusted AI, the less they critically engaged with its output. And in a 2025 paper in the journal <em>Societies</em>, Michael Gerlich found that frequent AI use correlated with weaker critical thinking scores, particularly among younger users, mediated by what cognitive scientists call cognitive offloading.</p>
+
+    <p>I have personally experienced this, as in my business I waded through AI slop pieces, blog posts, marketing materials, and internal &ldquo;evaluations&rdquo; where the hallucinations and exaggerations and prompt-pleasing content caused me to spend hours in correction and editing.</p>
+
+    <p>I have also read much from accomplished writers, who for example look for signals that AI has helped with content &mdash; hashes, phrases, certain logical approaches. Maybe you can find your favorite signals here! This essay itself was produced in &ldquo;partnership&rdquo; with AI. AI gathered the research in minutes. In similar fashion, most of my work in business was produced in partnership with my colleagues who drafted or edited content with me.</p>
+
+    <p>So no, I am not arguing against the use of AI. I learned a ton and honed my views by critically reading the &ldquo;AI slop.&rdquo; Included here are my findings about this partnership &mdash; how we use AI, so far. It will change.</p>
+
+    <p>In every one of the studies referenced here, the users who retained &mdash; and even sharpened &mdash; their cognitive engagement were those who treated AI as an object of scrutiny rather than a source of answers. The question for educators is not whether students will use AI. They will. To go further, they <em>should</em>. The question is whether they will use it in a way that builds their minds or quietly borrows against them.</p>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- PART I -->
+    <h2 class="part-head">Part I &middot; What critical thinking actually is in the age of AI</h2>
+
+    <p>For most of the twentieth century, the cleanest working definition of critical thinking I could find came from the 1990 Delphi Report, an American Philosophical Association consensus project led by Peter Facione that polled forty-six scholars from philosophy, education, and the social sciences. They identified six core cognitive skills: interpretation, analysis, evaluation, inference, explanation, and self-regulation. A skilled critical thinker, in their framing, was someone who could make sense of information, break it into components, weigh its credibility, draw defensible conclusions, show their reasoning, and monitor their own thinking for error.</p>
+
+    <p>Every one of those six skills is still required in the age of AI. But each now operates on a new kind of surface &mdash; one that produces confident, articulate, well-formatted outputs at a speed and scale no individual human can match. That changes what it means to practice critical thinking in seven concrete ways, and those elements are what educators and curriculum designers should be teaching toward.</p>
+
+    <h3 class="sub-head"><span class="num">1.</span>Framing and goal-setting</h3>
+    <p>When AI systems can generate plausible answers to almost any question, the quality of thinking is largely determined before the question is asked. What is the actual problem? What input or context is important to the topic? What would count as a good answer? What am I trying to decide, understand, or create? A student who can frame a question well will extract vastly more value from an AI partner than one who cannot &mdash; and framing is not something the AI can do for you, because it depends on your judgment about what matters. There is a whole new industry these days around &ldquo;prompting,&rdquo; which is very much about framing and goal-setting. So does the student copy someone else&rsquo;s prompts and run with them, or edit and develop their own?</p>
+
+    <h3 class="sub-head"><span class="num">2.</span>Source and output evaluation</h3>
+    <p>Students have been taught, for a generation, to evaluate sources: Is this a reputable publisher? Does this author have expertise? Is this study peer-reviewed? A language model is a new kind of source &mdash; it may cite no author, has no expertise in the traditional sense, and produces its outputs by probabilistic pattern completion over a training set. The appropriate epistemic stance is different. Treat AI output as a hypothesis to be tested, not a conclusion to be accepted.</p>
+
+    <h3 class="sub-head"><span class="num">3.</span>Evidence verification</h3>
+    <p>This is where most cognitive debt accumulates, because it is the place where effort is most easily skipped. An AI can produce a quote, a statistic, a citation, or a historical claim in seconds. The critical thinker asks: Is this real? Where does it come from? When a student receives a confident-sounding reference from an AI, the habit that needs to be built is the reflexive follow-through &mdash; click the link, find the source, check the context. This is the muscle that atrophies fastest when it is not exercised.</p>
+
+    <h3 class="sub-head"><span class="num">4.</span>Assumption auditing</h3>
+    <p>Every AI response is built on unstated assumptions about the user&rsquo;s intent, the framing of the question, the relevance of certain facts, and the irrelevance of others. A critical thinker learns to reverse-engineer those assumptions and ask whether they hold. What would change if one of them were wrong?</p>
+
+    <h3 class="sub-head"><span class="num">5.</span>Alternative-perspective seeking</h3>
+    <p>AI systems trained on the consensus of human text tend to converge on a modal answer &mdash; a plausible, middle-of-the-road response that does not offend. Practicing critical thinking means deliberately probing for dissent. What is the strongest argument against this conclusion? Who disagrees, and why? What would a thoughtful minority view look like? The AI is an excellent partner for this, but only if the user knows to ask. Honestly, it is difficult for me to spend any time on this, unless I just flat-out suspect a lie or a gross exaggeration.</p>
+
+    <h3 class="sub-head"><span class="num">6.</span>Metacognitive awareness</h3>
+    <p>Metacognition is thinking about your own thinking. In an AI partnership, it is the practice of noticing when you are accepting an answer because it is correct versus because it is comfortable, confident-sounding, or convenient. Helen Lee Bouygues, founder of the Paris-based Reboot Foundation, describes critical thinking as &ldquo;like speaking a second language&rdquo; &mdash; a skill that has to be deliberately practiced, and one that feels uncomfortable because challenging your own biases is genuinely uncomfortable. Metacognition is what makes that discomfort productive. Very few people these days, in my experience, are good at this &mdash; at least when it comes to certain social and political topics.</p>
+
+    <h3 class="sub-head"><span class="num">7.</span>Intellectual humility and calibrated trust</h3>
+    <p>The final element is a disposition more than a skill: a willingness to say <em>I don&rsquo;t know</em>, to update when evidence warrants, and to hold the AI&rsquo;s output and your own intuitions to the same standard. The Microsoft and Carnegie Mellon research found that users with higher confidence in AI and lower self-confidence offloaded the most cognitive work. The inverse pattern &mdash; calibrated trust in yourself, calibrated skepticism toward the tool &mdash; is the posture that preserves human judgment.</p>
+
+    <p>These seven elements are not a sequential pipeline. They are a repertoire, practiced together, each informing the others. A student who can frame a question well will evaluate the answer more carefully. A student who audits assumptions will notice when verification is needed. A student with metacognitive awareness will know when to slow down. Taken together, they describe what it means to be <em>the human in the loop</em> &mdash; a phrase Wharton professor Ethan Mollick uses in his book <em>Co-Intelligence</em> to describe the posture educators and workers should adopt with AI: present, critical, and in charge of the judgment calls.</p>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- PART II -->
+    <h2 class="part-head">Part II &middot; How critical thinking is learned</h2>
+
+    <p>Critical thinking is not a trait. It is not a gift some people are born with and others are not. It is a learned capacity, and it is learned the way second languages and musical instruments are learned &mdash; through deliberate, repeated, often uncomfortable practice, under the guidance of someone further along the path.</p>
+
+    <p>There are three things we know about how it develops. First, it is domain-sensitive. A person who reasons carefully about baseball statistics does not automatically reason carefully about epidemiology. Cognitive scientist Daniel Willingham has argued persuasively that critical thinking is not a free-floating skill that can be bolted onto any subject matter &mdash; it is always thinking <em>about something</em>, and the something matters. <strong>This is why &ldquo;teaching critical thinking&rdquo; as a standalone elective usually fails.</strong> It has to be taught inside subjects, with the domain knowledge that gives the thinking something to grip.</p>
+
+    <p>Second, it is developed through effortful retrieval and friction. The psychological literature on learning is clear that difficulty, within a supportive structure, is what produces durable skill. The MIT cognitive debt study is a striking demonstration of what happens when the friction is removed: when the AI does the hard work, the brain does not. The implication is not that AI should be withheld, but that the friction has to be put back somewhere &mdash; in the framing, in the verification, in the defense of conclusions, in the oral examination.</p>
+
+    <p>Third, it is modeled. Students learn to think critically by watching adults they respect do it out loud, and then imitating. A teacher who pauses mid-lesson to say &ldquo;I&rsquo;m not sure that&rsquo;s right &mdash; let me check my source&rdquo; is teaching critical thinking. A parent who challenges a headline at the dinner table and then updates their view when corrected is teaching critical thinking. A professor who changes her mind in the middle of a seminar because a student made a strong argument is teaching critical thinking. The demonstration is often more powerful than the instruction.</p>
+
+    <blockquote class="pull-quote">
+      Critical thinking is not something you&rsquo;re born with. You are taught, and you need to exercise it. It&rsquo;s like speaking a second language.
+      <span class="pull-quote-attr">&mdash; Helen Lee Bouygues, Reboot Foundation</span>
+    </blockquote>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- PART III -->
+    <h2 class="part-head">Part III &middot; How to practice critical thinking in AI interactions</h2>
+
+    <p>This is the part of the conversation that is usually missing. We tell students to &ldquo;think critically about AI&rdquo; without giving them a concrete repertoire of things to do. What follows is a practical set of practices &mdash; each one grounded in the seven elements above &mdash; that can be taught, assigned, and graded. They work for a high-school junior working on a research paper, a nursing student reviewing a case, or a product manager using AI to scope a launch. They also form a natural scaffold for curriculum design.</p>
+
+    <h3 class="sub-head"><span class="num">1.</span>Form your view first.</h3>
+    <p>Before asking the AI anything, write down your own initial take on the question in two or three sentences. Then ask the AI. Then compare. This two-pass method is the single most protective habit against cognitive debt. It forces your own cognition to show up before the AI&rsquo;s does. Teachers can build this directly into assignments.</p>
+
+    <h3 class="sub-head"><span class="num">2.</span>Ask the AI to argue the opposite.</h3>
+    <p>After receiving an answer, prompt the AI to give the strongest case against its own conclusion. A good prompt is: &ldquo;What are the three most serious objections to the position you just took, and who would make them?&rdquo; This is the single best use of an AI partner for critical thinking, and it is the closest thing to having a Socratic opponent on demand.</p>
+
+    <h3 class="sub-head"><span class="num">3.</span>Require citations and verify them.</h3>
+    <p>Never accept a factual claim from an AI without asking for a source, and never accept a source without checking it. This is non-negotiable. AI systems still hallucinate citations, and a meaningful percentage of the links they produce do not go where they say they go. Verification should be treated as a graded part of the assignment, not a courtesy step.</p>
+
+    <h3 class="sub-head"><span class="num">4.</span>Red-team your own prompt.</h3>
+    <p>Ask yourself: How am I framing this question, and what am I assuming? Then deliberately reframe it and ask again. If an AI gives you a different answer when you phrase the question differently, that is important information about the stability of the conclusion.</p>
+
+    <h3 class="sub-head"><span class="num">5.</span>Use the AI as a tutor, not an answer machine.</h3>
+    <p>Instead of asking the AI to produce the essay, ask it to help you think through the essay. Good prompts: &ldquo;Ask me five questions that will sharpen my argument.&rdquo; &ldquo;Where is my reasoning weakest?&rdquo; &ldquo;What would I need to know to have a stronger view?&rdquo; The tutor posture is where most of the learning happens.</p>
+
+    <h3 class="sub-head"><span class="num">6.</span>Interrogate the confident-sounding answer.</h3>
+    <p>AI output is uniformly confident. That confidence is a stylistic artifact, not evidence of correctness. Train yourself, and your students, to pause longer on smooth, declarative outputs than on hedged ones. The sentences that are hardest to question are the ones most worth questioning.</p>
+
+    <h3 class="sub-head"><span class="num">7.</span>Name your own uncertainty.</h3>
+    <p>After working with an AI, articulate what you still don&rsquo;t know, what you&rsquo;re not sure about, and what you would need to find out to be confident. This is the metacognitive finish that turns a transaction into learning.</p>
+
+    <h3 class="sub-head"><span class="num">8.</span>Defend your conclusion to a human.</h3>
+    <p>The final test is oral. If you cannot explain, out loud, to a thoughtful person, why you believe what you believe &mdash; citing the evidence, addressing the objections, and acknowledging the uncertainty &mdash; then the thinking has not been done, no matter how polished the output looks. This is the single most powerful assessment technique available to educators, and it is robust against every AI tool that exists.</p>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- PART IV -->
+    <h2 class="part-head">Part IV &middot; How to teach these skills</h2>
+
+    <p>The practices above can be taught at every educational level, but the scaffolding has to be age-appropriate. The broader the adoption, the more this becomes a curriculum question rather than a classroom one &mdash; and the more it becomes a matter for district leaders, administrators, textbook publishers, accreditors, and philanthropic funders.</p>
+
+    <h3 class="sub-head">Elementary grades: unplugged first, then guided</h3>
+    <p>Young children should learn the underlying habits of mind &mdash; asking why, checking, comparing, noticing when something sounds off &mdash; before encountering generative AI at all. Classic media-literacy exercises, Socratic conversation in circle time, simple source-checking games, and even the deliberate introduction of incorrect information for children to catch, all build the foundational instincts. When AI is introduced in upper elementary grades, it should be used visibly and briefly as a class activity, with the teacher modeling verification aloud: &ldquo;It said this. Let&rsquo;s see if that&rsquo;s right.&rdquo; In my own experience, breaking through a child&rsquo;s own stated views &mdash; &ldquo;that doesn&rsquo;t sound right&rdquo; &mdash; is hard enough for a young child to hear and bear, without AI being the source.</p>
+
+    <h3 class="sub-head">Middle and secondary grades: partnered practice</h3>
+    <p>It has been a long time since I have been a teacher. I remember the many challenges. But this is where the practices in Part III become a teachable curriculum. Middle and high school students can handle the two-pass method, prompt red-teaming, citation verification, and oral defense. Assessments should increasingly measure the thinking, not the artifact. A research paper that a student cannot defend in a five-minute oral exam is worth very little; a research paper that a student can defend &mdash; including the parts where AI helped &mdash; is worth a great deal. Oral examinations, process portfolios, in-class timed work, and collaborative defenses are the assessment forms that remain meaningful in an AI era.</p>
+
+    <h3 class="sub-head">Higher education: domain-embedded critical thinking</h3>
+    <p>Universities should stop treating critical thinking as a general-education requirement satisfied by a single course. Willingham&rsquo;s point about domain-sensitivity is decisive here: critical thinking in medicine is not the same as critical thinking in law, history, or engineering, and the transfer between them is weaker than most curriculum committees assume. Every major should identify the specific forms of reasoning its field requires, map them onto the seven elements and eight practices, and build them into courses explicitly. AI ethics and AI literacy should be universal requirements, not reserved for computer science students &mdash; because future nurses, lawyers, managers, engineers, mechanics, marketers, and policymakers will all be managing AI-enabled systems within a few years of graduation.</p>
+
+    <h3 class="sub-head">Workforce and continuing education</h3>
+    <p>Adults already in the workforce are the least supported population on this dimension, and they are the ones currently making the biggest decisions about how AI gets used. Employer-sponsored AI literacy programs &mdash; short, practical, grounded in the employee&rsquo;s actual daily work &mdash; are one of the highest-leverage investments a company or a philanthropic funder can make. The best of these programs do not teach people how to use AI tools; they teach people how to think while using AI tools, which is a genuinely different curriculum. I have wanted to add critical editing of AI content as a big part of personnel evaluations.</p>
+
+    <h3 class="sub-head">Teachers and faculty</h3>
+    <p>None of this works without sustained investment in the people doing the teaching. A one-day workshop is not a professional development program. Educators need time, collegial structure, and support to rebuild their own assessment practices, redesign their assignments, and become fluent themselves with the tools their students are already using. The research is clear that teachers who use AI thoughtfully in their own work are the ones who can teach students to do the same. But the tools at the moment may be primarily DIY.</p>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- PART V -->
+    <h2 class="part-head">Part V &middot; A call to educators, philanthropists, and curriculum leaders</h2>
+
+    <p>The agenda that follows from this framework is specific and fundable. It is not abstract.</p>
+
+    <p>First, fund pedagogy, not just tools. Most of the philanthropic and public money flowing into AI and education is going into software. Far less is going into the harder, slower work of redesigning what teachers teach and how learning is assessed. The ratio could be reversed. The classrooms that will produce capable critical thinkers are the ones where the curriculum, the assessments, and the teacher training have all been rebuilt around the seven elements &mdash; not the ones with the shiniest AI dashboards, but <em>student achievement</em> dashboards, as described next.</p>
+
+    <p>It has become obvious that we need to move &ldquo;back&rdquo; to the development and adoption of assessments that AI cannot pass for the student. Oral exams, in-class defenses, process portfolios, live problem-solving, and collaborative work are all robust against generative AI in a way that take-home essays and multiple-choice tests are not. These assessment forms exist; they are well-validated; they are underused because they are expensive in teacher time. That expense is exactly the kind of cost philanthropy can promote and support.</p>
+
+    <p>Third, invest in teacher capacity at a scale that matches the stakes. Every credible analysis of what schools need most right now names the same bottleneck: teachers have been given a generational technological shift and very little support in adapting to it. Multi-year fellowships, paid curriculum-redesign time, peer learning communities, and fluency training &mdash; not one-day workshops &mdash; are what will move the needle. Funding for educating educators and reducing class size is notoriously last to exist, first to go.</p>
+
+    <p>Fourth, build a shared research-to-practice infrastructure. The academic literature on critical thinking and AI is exploding &mdash; a 2025 bibliometric review in a Scopus-indexed journal identified more than six hundred articles on the topic published since ChatGPT&rsquo;s release &mdash; but almost none of it is reaching classroom teachers in a usable form. Translation institutions, the kind of work that organizations like the Reboot Foundation, the AI Education Project, and Stanford&rsquo;s HAI do, need to be funded at the level of the problem.</p>
+
+    <p>Fifth, write the policies now, not after the next news cycle. Districts, universities, and education ministries that wait for a crisis will end up with reactive, restrictive policies that either ban tools students are already using or waive oversight altogether. The institutions that do this well are the ones that are defining, publicly and early, what human judgment is required for and what AI is invited to do &mdash; and building the training, assessment, and accountability structures to match.</p>
+
+    <div class="divider">&#10087;</div>
+
+    <!-- CLOSING -->
+    <h2 class="part-head">A closing note</h2>
+
+    <p>Every technological shift in history has rearranged what human beings need to be able to do. Printing did it. Calculators did it. Search engines did it. I participated in promoting computers and software in classrooms around the world. In each case, the transition was disorienting, the predictions were wrong in both directions, and the skills that ultimately mattered were not always predictable. What is different this time is the speed, and the specific function AI is taking over: not computation, not memory, not navigation, not typing and editing, but reasoning itself, or a performance of it convincing enough to pass for reasoning most of the time.</p>
+
+    <p>Critical thinking has always been the premium human capacity. In the age of AI, it stops being a premium and becomes the floor. The students and citizens who can genuinely think &mdash; who can frame a question, weigh a claim, audit an assumption, imagine a dissent, notice their own uncertainty, and defend a conclusion &mdash; will flourish. The ones who cannot will be carried along by whatever the most confident-sounding output happens to say.</p>
+
+    <p>The choice between those two futures will be made, in large part, by the people who somehow find this essay and others like it, because they are in it, now. Curriculum leaders, philanthropists, school and university administrators, and policymakers have more agency in this moment than they often feel they have. Every dollar spent on teaching people to think with AI rather than defer to it, every assessment redesigned to measure the thinking rather than the artifact, every teacher supported through the transition, moves us toward the better version of this future.</p>
+
+    <p>That is the work. It is the most important education project of this decade, a very hard one &mdash; but it is one we know how to do.</p>
+
+    <div class="sig">
+      &mdash; Alan Yates
+      <span class="sig-sub">alancyates.com</span>
+    </div>
+
+    <!-- FURTHER READING -->
+    <h2 class="further-head">Further reading and sources</h2>
+
+    <div class="further-list">
+      <p>Facione, P. A. (1990). <em>Critical Thinking: A Statement of Expert Consensus for Purposes of Educational Assessment and Instruction (The Delphi Report).</em> American Philosophical Association. The canonical definition of critical thinking&rsquo;s six core skills.</p>
+
+      <p>Mollick, E. (2024). <em>Co-Intelligence: Living and Working with AI.</em> Penguin Random House. Mollick&rsquo;s four principles &mdash; invite AI to the table, be the human in the loop, treat AI like a person but tell it what kind, and assume this is the worst AI you will ever use &mdash; are the most useful short framework in circulation, and his &ldquo;One Useful Thing&rdquo; Substack is the single best ongoing source on practical AI use in education.</p>
+
+      <p>Kosmyna, N., Hauptmann, E., Yuan, Y. T., Situ, J., Liao, X.-H., Beresnitzky, A. V., Braunstein, I., and Maes, P. (2025). <em>Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task.</em> MIT Media Lab. The EEG study that made cognitive debt legible.</p>
+
+      <p>Microsoft Research and Carnegie Mellon University (2025). <em>The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects from a Survey of Knowledge Workers.</em> Presented at CHI 2025. The workplace counterpart to the MIT study.</p>
+
+      <p>Gerlich, M. (2025). <em>AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking.</em> Societies. The first large empirical study linking AI tool frequency to weakened critical thinking scores.</p>
+
+      <p>Reboot Foundation (Paris). <em>How to Teach Critical Thinking.</em> A practical guide developed with state and district Teachers of the Year, available at reboot-foundation.org. Helen Lee Bouygues&rsquo;s regular Forbes column on critical thinking and misinformation is the most accessible ongoing commentary in this space.</p>
+
+      <p>Willingham, D. T. (2007). <em>Critical Thinking: Why Is It So Hard to Teach?</em> American Educator. The foundational case for domain-sensitivity in critical thinking instruction.</p>
+
+      <p>Dell&rsquo;Acqua, F., McFowland, E., Mollick, E., et al. (2023). <em>Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of AI on Knowledge Worker Productivity and Quality.</em> Harvard Business School working paper. The most-cited field study on how AI changes professional work &mdash; including which tasks become easier and which become harder to do well.</p>
+
+      <p>OECD (2023 and ongoing). <em>AI Literacy and the Future of Education</em> working papers. The most comprehensive international policy framework for AI in education currently available.</p>
+    </div>
+
+    <div class="return-cta">
+      <a href="index.html">Return to alancyates.com</a>
+    </div>
+
+  </article>
+
+</main>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH > 0) bar.style.width = (window.scrollY / docH * 100) + '%';
+  });
+</script>
+
+</body>
+</html>

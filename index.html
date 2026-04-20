@@ -387,21 +387,28 @@
 
   <div class="articles-grid">
 
-    <a href="framework.html" class="article-card reveal">
+    <a href="critical-thinking.html" class="article-card reveal">
+      <div class="article-card-status published">Published &middot; 2026</div>
+      <h3 class="article-card-title">The Thinking We Can&rsquo;t Outsource</h3>
+      <p class="article-card-teaser">A practical framework for critical thinking in partnership with AI &mdash; for educators, philanthropists, and curriculum leaders. Seven elements, eight practices, and a concrete funding agenda.</p>
+      <div class="article-card-pattern"></div>
+    </a>
+
+    <a href="framework.html" class="article-card reveal reveal-delay-1">
       <div class="article-card-status published">Published &middot; 2026</div>
       <h3 class="article-card-title">Education in the Age of AI</h3>
       <p class="article-card-teaser">A blueprint for helping every school, college, and workforce program in America rise to meet the most significant shift in learning since the printing press. 5 pillars. 20 concrete actions.</p>
       <div class="article-card-pattern"></div>
     </a>
 
-    <a href="saas-evolution.html" class="article-card reveal reveal-delay-1">
+    <a href="saas-evolution.html" class="article-card reveal reveal-delay-2">
       <div class="article-card-status published">Published &middot; 2026</div>
       <h3 class="article-card-title">R.I.P. or Rebirth? The Future of SaaS</h3>
       <p class="article-card-teaser">The SaaS industry isn&rsquo;t dead &mdash; but the era of passive &ldquo;systems of record&rdquo; is over. A strategic roadmap for how software firms must evolve in the age of AI.</p>
       <div class="article-card-pattern"></div>
     </a>
 
-    <a href="tech-shifts.html" class="article-card reveal reveal-delay-2">
+    <a href="tech-shifts.html" class="article-card reveal" style="text-decoration:none;color:inherit;display:block;">
       <div class="article-card-status published">Published &middot; 2026</div>
       <h3 class="article-card-title">Turning Technology Shifts Into Human Advances</h3>
       <p class="article-card-teaser">From the PC revolution to the internet, mobile, cloud, and now AI &mdash; a career shaped by using each new wave of technology to help people do more, learn more, and build what comes next.</p>
@@ -482,6 +489,18 @@
   <span style="letter-spacing:0.12em;text-transform:uppercase;font-size:0.68rem;">alancyates.com</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>
